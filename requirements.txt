@@ -1,0 +1,7 @@
+customtkinter
+matplotlib
+Pillow
+ultralytics
+opencv-python
+pyserial
+openimages
