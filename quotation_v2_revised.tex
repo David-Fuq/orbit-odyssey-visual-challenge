@@ -1,0 +1,299 @@
+\documentclass[a4paper]{article}
+
+% PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{charter}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{comment}
+\usepackage[hmarginratio=1:1, top=32mm, margin=0.8in, headsep=20mm]{geometry}
+
+\newcommand{\TODO}{\textbf{\textcolor{red}{TODO}}}
+
+\lhead{\includegraphics[scale=0.4]{CETC.png}}
+\rhead{\includegraphics[scale=0.025]{Cornell-University-Logo.png}}
+
+\pagestyle{fancy}
+\fancyfoot{}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+
+\thispagestyle{fancy}
+
+\begin{center}
+    \textbf{\large Orbit Odyssey -- Computer Vision Autonomous Challenge} \\[0.3em]
+    {\Large Quotation}
+
+    \vspace{1em}
+
+    David Alejandro Fuquen Fl\'orez \\[0.3em]
+    {\small \today}
+\end{center}
+
+\vspace{1em}
+
+%===============================================================================
+\section*{Summary}
+%===============================================================================
+
+This quotation covers the remaining development work for the Autonomous Computer Vision portion of the Orbit Odyssey Challenge, originally proposed by Rushil Sambangi (Cornell University). The scope includes three deliverables: a complete competition manual, adaptation of the graphical training interface, and refinement of the XRP robot control code.
+
+The project will be delivered in three sequential phases.
+
+%===============================================================================
+\section*{Hourly Rate}
+%===============================================================================
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Hourly rate} & \$28.00 USD \\
+\textbf{Estimated total hours} & 43 hours (base) \\
+\textbf{Estimated total cost} & \$1,204.00 USD (base) \\
+\textbf{Contingency range} & Up to 51 hours / \$1,428.00 USD \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%===============================================================================
+\section*{Phase 1: Competition Manual}
+%===============================================================================
+
+\noindent\textbf{Deadline:} 26/05/2026 (to be shown at 10 AM HKT meeting) \hfill \textbf{Estimated hours:} 14 \hfill \textbf{Cost:} \$392.00
+
+\vspace{0.5em}
+
+The manual will serve as the single source of truth for the competition. It will be inspired by and expand upon the original \href{https://docs.google.com/document/d/1N_mCX1EM3w5nDMbHrX3vcQlSqa2yJL38nCU0xxMPxmY/edit?tab=t.0}{Orbit Odyssey Manual}, with a strong emphasis on preventing cheating and closing loopholes.
+
+\subsection*{Scope of Work}
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Playing Field Definition} (4 hrs)
+    \begin{itemize}
+        \item Field dimensions, boundaries, and markings
+        \item Robot starting zone placement rules
+        \item Object quantity, placement templates, and clearance constraints
+    \end{itemize}
+
+    \item \textbf{Scoring System and Scorecards} (4 hrs)
+    \begin{itemize}
+        \item Complete point system (field performance, mAP bonus, model-size multiplier)
+        \item Penalty definitions and edge-case rulings
+        \item Tiebreaker hierarchy
+        \item Printable scorecard template for referees
+        \item Integration of cryptographic receipt verification into scoring workflow (see Phase 2 section for details)
+    \end{itemize}
+
+    \item \textbf{Student Guide} (2 hrs)
+    \begin{itemize}
+        \item Step-by-step instructions for using the training GUI
+        \item Explanation of hyperparameter choices and their trade-offs
+        \item How to submit the trained model and receipt for deployment
+    \end{itemize}
+
+    \item \textbf{Moderator Guide} (2 hrs)
+    \begin{itemize}
+        \item Field setup checklist (per-match randomization)
+        \item Receipt verification procedure (decryption and validation) (see Phase 2 section for details)
+    \end{itemize}
+
+    \item \textbf{Anti-Cheating Documentation} (2 hrs)
+    \begin{itemize}
+        \item How the signed receipt system works (for judges)
+        \item What constitutes a valid vs.\ tampered receipt
+        \item Disqualification criteria
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Hour Breakdown}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Task} & \textbf{Hours (est.)} & \textbf{Cost} \\
+\midrule
+Playing field definition & 4 & \$98.00 \\
+Scoring system \& scorecards & 4 & \$98.00 \\
+Student guide & 2 & \$98.00 \\
+Moderator guide & 2 & \$70.00 \\
+Anti-cheating documentation & 2 & \$28.00 \\
+\midrule
+\textbf{Phase 1 Total} & \textbf{14.0} & \textbf{\$392.00} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%===============================================================================
+\section*{Phase 2: Graphical User Interface}
+%===============================================================================
+
+\noindent\textbf{Timeline:} To be delivered June 9-12 \hfill \textbf{Estimated hours:} 18 \hfill \textbf{Cost:} \$504.00
+
+\vspace{0.5em}
+
+This phase adapts the existing training GUI (\texttt{gui\_train\_model.py}) to work with CETC's current codebase. It also implements a cryptographic anti-cheating system: a signed, encrypted receipt that records the exact hyperparameters and results from each training run. Only moderators possess the decryption key.
+
+\subsection*{Scope of Work}
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{CETC Code Integration} (7 hrs)
+    \begin{itemize}
+        \item Analyze CETC's existing training/data pipeline
+        \item Adapt GUI to interface with CETC's code structure
+        \item Ensure compatibility with CETC's dataset format and workflow
+        \item Resolve any dependency or conflicts
+    \end{itemize}
+
+    \item \textbf{Signed Receipt System} (6 hrs)
+    \begin{itemize}
+        \item Implement Fernet symmetric encryption with a moderator-held secret key
+        \item Receipt captures: hyperparameters , class names, final mAP per class, model file size, timestamp, and unique run ID
+        \item Receipt exported as encrypted \texttt{.receipt} file alongside model weights
+        \item Moderator-side decryption utility for verification
+    \end{itemize}
+
+    \item \textbf{mAP and Model-Size Extraction} (2 hrs)
+    \begin{itemize}
+        \item Programmatically extract mAP from training results CSV
+        \item Compute and record model file size (bytes)
+        \item Feed both values into the receipt and display in GUI summary
+    \end{itemize}
+
+    \item \textbf{UI Adjustments and Testing} (3 hrs)
+    \begin{itemize}
+        \item Update dataset selection flow for CETC's folder structure
+        \item Add receipt export status indicator in GUI
+        \item End-to-end testing: train $\rightarrow$ export $\rightarrow$ receipt generation $\rightarrow$ decryption verification
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Hour Breakdown}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Task} & \textbf{Hours (est.)} & \textbf{Cost} \\
+\midrule
+CETC code analysis \& integration & 8.0 & \$224.00 \\
+Signed receipt system (Fernet) & 5.0 & \$140.00 \\
+mAP / model-size extraction & 2.0 & \$56.00 \\
+UI adjustments \& testing & 3.0 & \$84.00 \\
+\midrule
+\textbf{Phase 2 Total} & \textbf{18.0} & \textbf{\$504.00} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{comment}
+    \vspace{0.5em}
+\noindent\textit{Note:} The CETC integration estimate carries the highest uncertainty. If their codebase requires significant refactoring to interface with the GUI, this task may require up to 12 hours (adding \$112 to Phase 2).
+\end{comment}
+
+
+%===============================================================================
+\section*{Phase 3: XRP Robot Code}
+%===============================================================================
+
+\noindent\textbf{Timeline:} June 19-23 \hfill \textbf{Estimated hours:} 11 \hfill \textbf{Cost:} \$308.00
+
+\vspace{0.5em}
+
+Once the playing field and game rules are finalized (Phase 1), the XRP robot's MicroPython control code (\texttt{main.py}) will be adapted to operate within the defined arena constraints. Note: Given hardware constraints (I do not possess the camera or chip to be used for this challenge) this part must be done in partnership with CETC's engineers for proper testing.
+
+\subsection*{Scope of Work}
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{State Machine Adaptation} (4 hrs)
+    \begin{itemize}
+        \item Align search/center/contact/avoid behavior with defined field dimensions
+        \item Parameterize hardcoded values (distances, speeds, delays)
+        \item Handle edge case
+    \end{itemize}
+
+    \item \textbf{Parameter Tuning and Testing} (5 hrs)
+    \begin{itemize}
+        \item Tune turn speeds, centering threshold, approach distances for physical field
+        \item Test with actual objects (cans, wheels, rocket model)
+        \item Validate rangefinder accuracy at competition distances
+    \end{itemize}
+
+    \item \textbf{Integration Testing} (4 hrs)
+    \begin{itemize}
+        \item Full pipeline test: GUI-trained model $\rightarrow$ \texttt{run\_model.py} $\rightarrow$ XRP
+        \item Verify ACK flow control stability over full 120-second run
+        \item Confirm scoring conditions are met 
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Hour Breakdown}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Task} & \textbf{Hours (est.)} & \textbf{Cost} \\
+\midrule
+State machine adaptation & 5.0 & \$140.00 \\
+Parameter tuning \& testing & 3.5 & \$98.00 \\
+Integration testing (full pipeline) & 2.5 & \$70.00 \\
+\midrule
+\textbf{Phase 3 Total} & \textbf{11.0} & \textbf{\$308.00} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%===============================================================================
+\section*{Total Cost Summary}
+%===============================================================================
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Phase} & \textbf{Hours} & \textbf{Cost} & \textbf{Timeline} \\
+\midrule
+1. Competition Manual & 14.0 & \$392.00 & Week 1 \\
+2. GUI Adaptation & 18.0 & \$504.00 & Weeks 2--3 \\
+3. XRP Robot Code & 11.0 & \$308.00 & Week 3 \\
+\midrule
+\textbf{Base Total} & \textbf{43.0} & \textbf{\$1,204.00} & \textbf{3 weeks} \\
+\midrule
+Contingency (CETC risk) & +8.0 & +\$224.00 & --- \\
+\midrule
+\textbf{Maximum Total} & \textbf{51.0} & \textbf{\$1,428.00} & \textbf{3 weeks} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%===============================================================================
+\section*{Milestones}
+%===============================================================================
+
+\begin{description}[leftmargin=!,labelwidth=5em]
+    \item[26/05/2026] Complete competition manual. Deliver: finalized PDF with playing field specs, scoring rules, student/moderator guides, anti-cheat documentation, and printable scorecards.
+
+    \item[June 9- June 12] CETC's training code integration and receipt system. Deliver: working GUI that produces encrypted receipts alongside trained models. Moderator decryption utility functional.
+
+    \item[June 19 - June 23] XRP code finalization and full-pipeline integration testing. Deliver: updated \texttt{main.py}, tested end-to-end with physical hardware and competition objects.
+\end{description}
+
+\begin{comment}
+    
+
+\end{comment}
+
+\subsection*{Itinerary and limitations}
+
+
+
+\end{document}
+

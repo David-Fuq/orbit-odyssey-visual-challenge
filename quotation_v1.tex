@@ -1,0 +1,169 @@
+\documentclass[a4]{article}
+
+% PAQUETES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage{framed} % Para crear cuadros alrededor del texto
+\usepackage{makecell}
+\usepackage[english]{babel}
+%
+\usepackage[fixlanguage]{babelbib}
+    \bibliographystyle{IEEEtran}
+
+\usepackage{url}
+
+%!TEX encoding = UTF-8 Unicode
+% !TEX spellcheck = es
+
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.5 in}
+
+\usepackage{multirow, array} % para las tablas
+\usepackage{float} % para usar [H]
+\usepackage{charter}
+
+\usepackage[breaklinks=true]{hyperref}
+
+%
+% ADD PACKAGES here:
+%
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,longtable,siunitx, float, graphicx, dcolumn, bm, fancyhdr, authblk, subcaption, caption, hyperref, multicol, setspace}
+
+\usepackage{bbding}
+\usepackage{amssymb}
+\usepackage[rightcaption]{sidecap}
+%\usepackage{textcomp}
+
+\usepackage[hmarginratio=1:1, top=32mm, columnsep=20pt, headsep=\dimexpr20mm, margin=0.7in, top=1in ]{geometry}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage{algorithm}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage[noend]{algpseudocode}
+\usepackage{xcolor}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% ----------- global styles -----------
+\tikzset{
+  font=\scriptsize,                      % tiny text everywhere
+  every node/.style       = {transform shape},   % respect scale
+  startstop/.style        = {ellipse, draw, fill=blue!10,
+                             inner sep=1pt, minimum width=13mm},
+  process/.style          = {rectangle, draw, fill=orange!15,
+                             text width=26mm, inner sep=2pt, align=center},
+  decision/.style         = {diamond, draw, fill=green!15, aspect=2.3,
+                             text width=20mm, inner sep=1pt, align=center},
+  arrow/.style            = {->, >=Stealth, shorten >=1pt, shorten <=1pt}
+}
+
+\newcommand{\TODO}{\textbf{\textcolor{red}{TODO}}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\lhead{\includegraphics[scale=0.4]{CETC.png}}
+\rhead{\includegraphics[scale=0.025]{Cornell-University-Logo.png}}
+
+\newtheorem{theo}{Theorem}
+\newenvironment{theorem}
+  {\begin{mdframed}\begin{theo}}
+  {\end{theo}\end{mdframed}}
+  
+\newtheorem{prop}{Proposición}
+\newenvironment{proposition}
+  {\begin{mdframed}\begin{prop}}
+  {\end{prop}\end{mdframed}}
+
+\newtheorem{lem}{Lema}
+\newenvironment{lema}
+  {\begin{mdframed}\begin{lem}}
+  {\end{lem}\end{mdframed}}
+  
+\newtheorem{defi}{Definition}
+\newenvironment{definition}
+  {\begin{mdframed}\begin{def}}
+  {\end{def}\end{mdframed}}
+  
+\newtheorem{proof}{Proof}
+\newtheorem{remark}{Remark}
+
+\usepackage[numbers]{natbib}
+\renewcommand{\thesection}{\Roman{section}}
+%\setlength{\parskip}{\baselineskip}%
+
+\begin{document}
+
+\thispagestyle{fancy}
+
+\begin{center}
+    \textbf{\large Orbit Odyssey - Computer Vision} \\
+    {Quotation}
+    
+    \vspace{0.7em}
+
+    David Alejandro Fuquen \\
+
+    {\small \today}
+
+\end{center}
+
+\section*{Quotation for the Orbit Odyssey - Computer Vision Autonomous Challenge}
+
+\subsection*{Summary}
+The following is a quotation for the Autonomous part of the Orbit Odyssey Challenge. This will focus specifically on the autonomous Computer Vision challenge, originally proposed by Rushil Sambangi from Cornell University. In the following sections you may find the proposed timeline alongside the stipulated needed hours and total rate for each objective.
+
+\subsection*{Hourly Rate}
+The stipulated hourly rate for my work is \$28.00 USD. This is based upon my current work at the us-based company I am a part of. Subject to change as I really want to be part of this project and go to china and stuff
+
+\subsection*{Development of the Manual}
+
+The guideline will be inspired by the original \href{https://docs.google.com/document/d/1N_mCX1EM3w5nDMbHrX3vcQlSqa2yJL38nCU0xxMPxmY/edit?tab=t.0}{Orbit Odyssey Manual}. It will be the main source of truth for this part of the competition. Will have special focus on preventing cheating and loopholes. We want this competition to be as honest and straighforward as possible.
+
+This manual will include:
+\begin{itemize}
+    \item Definition of the playing field.
+    \begin{itemize}
+        \item Where the robot starts.
+        \item How many objects will there be.
+        \item How the objects will be distributed along the field.
+    \end{itemize}
+    \item Scoring objective.
+    \begin{itemize}
+        \item Point system
+        \item Penalization system
+        \item Points that come from the GUI (training), mAP bonus, model size bonus. All that stuff and how to get it from the GUI (this will be the part related to the crypto part that gives us the score gotten from the GUI, see section "GUI").  
+        \iten Scorecards
+    \end{itemize}
+    \item Game Overview
+    \begin{itemize}
+        \item What each team must do to win
+        \item DO's and DONT's
+    \end{itemize}
+    \item How to train the model with the GUI
+    \begin{itemize}
+        \item Explanation of how to use the GUI
+        \item Explanation on how to upload the model to the AiXboard and how to connect that to the actual XRP
+    \end{itemize} 
+    \item Definition of objects for the competition
+\end{itemize}
+
+\subsection*{Graphical User Interface}
+
+This part will be the UI/UX for the experience. It will be complementary to the code created by CETC for the training. Instead of being a CLI-controlled version (like the one of previous competitions), users will be able to upload the data in the GUI and choose the parameters from a range of options, while being able to visually percieve the result of the training. 
+
+Currently, the GUI has been created for Google's OpenImages. It will need to be adapted to work with CETC's current code, considering students will take their own images for the classification instead of using Google's resources. Additionaly, the GUI will now store the hyperparameters used by the student in a crypted message, that only we can decrypt. This will ensure no cheating will be done by the students: the part of the point system corresponding to the mAP bonus and model size will be determined only by this crypted message.
+
+\subsection*{Adapting the XRP code}
+
+Once we define the playing field and game scenarios, we will need to adapt the code from the XRP. Currently, the code only makes the robot spin until it recognizes an object. Once it does, it either goes to the object (attraction object) or goes back (rejection object).
+
+
+
+\end{document}

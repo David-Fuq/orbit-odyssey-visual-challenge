@@ -1,0 +1,532 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{url}
+%\usepackage[backend=biber,style=numeric]{biblatex}
+%\addbibresource{sample}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,english]{babel}
+\usepackage{alphabeta}
+\usepackage{comment}
+\usepackage{amssymb, amsmath}
+\usepackage[pdftex]{graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{array}
+\usepackage{cancel}
+\usepackage{minted}
+\usepackage{titlesec}
+\usepackage{blindtext}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{comment}
+
+\usepackage{longtable}
+\usepackage{array}
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{4pt}
+
+\linespread{1.06}
+\setlength{\parskip}{8pt plus2pt minus2pt}
+\providecommand{\abs}[1]{\lvert#1\rvert}
+
+
+\usepackage{hyperref}
+
+
+
+\newcommand{\eat}[1]{}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\usepackage[official]{eurosym}
+\usepackage{enumitem}
+\setlist{nolistsep,noitemsep}
+
+\usepackage{subfig}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+
+%%%%% SECTION NUMBERING DEPTH
+% 0 = chapter; 1 = section; 2 = subsection; 3 = subsubsection, 4 = paragraph...
+% The level that gets a number:
+\setcounter{secnumdepth}{2}
+% The level that shows up in the ToC:
+\setcounter{tocdepth}{3}
+
+\pagenumbering{gobble}
+%===========================================================
+\begin{document}
+\begin{titlepage}
+\begin{center}
+
+\includegraphics[width=0.70\textwidth]{images/CETC.png}
+
+\includegraphics[width=0.70\textwidth]{images/Cornell-University-Logo.png}
+
+%----------------------
+\HRule \\[0.4cm]
+{ \LARGE
+  \textbf{Orbit Odyssey - Computer Vision Challenge}\\[0.1cm]
+}
+\HRule \\[1 cm]
+
+%----------------------
+{ \large
+  David Alejandro Fuquen Fl\'orez \\[0.7cm]
+
+  Original concept and development: Rushil Sambangi \\[0.01cm]
+}
+
+
+\vfill
+\end{center}
+\end{titlepage}
+
+\newpage
+
+%===========================================================
+
+%===========================================================
+
+\tableofcontents
+\pagebreak
+
+\pagenumbering{arabic}
+
+%===========================================================
+\section{Introduction}
+%===========================================================
+
+\subsection{Original Concept}
+
+The Orbit Odyssey Computer Vision Challenge was originally conceived and developed by Rushil Sambangi as an end-to-end machine learning pipeline challenge. The goal is to give students firsthand, hands-on experience with the full lifecycle of an ML model: data collection, model training, real-world deployment, and autonomous robot control, all within the span of a single, codeless activity.
+
+The original pipeline is built around four key technologies: \textbf{Open Images} (Google's open-source labeled image dataset), \textbf{YOLOv11} (a state-of-the-art real-time object detection model), the \textbf{Intel AIxBoard} (a compact edge AI computer that runs the model during the game), and the \textbf{XRP robot} (a programmable differential-drive robot that acts on the detections).
+
+\subsection{Adaptation for Orbit Odyssey}
+
+This adaptation reimagines and adaptes the challenge within a space exploration narrative, refining the competition rules and scoring system.
+
+\subsubsection*{Mission Narrative}
+
+The silence of deep space was broken by a single catastrophic failure.
+
+The unmanned cargo vessel \textit{Astra-9} was carrying critical supplies to a remote lunar outpost: replacement landing gear, emergency rations, and a compact rescue rocket designed for long-range distress signaling. Moments before touchdown, the ship suffered a systems blackout and shattered across the lunar surface, scattering its payload into orbiting debris and drifting wreckage.
+
+Now, the remains of the mission float through a dangerous field of chaos: massive detached \textbf{wheels} tumbling unpredictably through low gravity, spinning \textbf{canned food containers} propelled by the explosion, and fragments of metal crossing the robot's path like silent meteors.
+
+Buried somewhere within the debris is the last surviving rescue beacon: an intact \textbf{rocket module}. Reaching it is humanity's only chance to recover the lost expedition data and reestablish contact with the colony.
+
+An autonomous robotic scout has been deployed into the wreckage.
+
+Its objective is simple to state --- but deadly to execute:
+
+\begin{itemize}
+    \item Navigate the unstable debris field
+    \item Avoid collisions with moving obstacles
+    \item Locate and make contact with the rescue rocket
+    \item Complete the mission using only onboard vision and AI detection systems
+\end{itemize}
+
+No pilot.\\
+No remote control.\\
+Only the robot, its sensors, and its decisions standing between success and total mission loss.
+
+\subsubsection*{Object Classes}
+
+Three object classes are used in this challenge, each sourced from the Open Images dataset:
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Object} & \textbf{Default Behavior} & \textbf{Narrative Role} \\
+\hline
+Rocket   & Contact & Rescue target: make contact to signal for help \\
+Tire     & Avoid   & Debris from the cargo ship's landing gear \\
+Tin can  & Avoid   & Debris: canisters of preserved space food \\
+\hline
+\end{tabular}
+\end{center}
+
+The three classes were chosen for their visual distinctiveness, which helps the model learn reliable separations between them, and for their narrative coherence within the space debris scenario.
+
+\subsection{Understanding the Pipeline}
+
+The challenge is implemented across four scripts. Each corresponds to one stage of the pipeline and runs on a different device.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/odyssey_architecture (1).jpg}
+    \caption{Orbit Odyssey Architecture}
+    \label{fig:enter-label}
+\end{figure}
+
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Script} & \textbf{Runs on} & \textbf{Purpose} \\
+\hline
+\texttt{gather\_data.py}     & PC (moderator)       & Download and label datasets from Open Images \\
+\texttt{gui\_train\_model.py} & PC (student)         & Train the YOLOv11 model via a graphical interface \\
+\texttt{run\_model.py}       & PC or AIxBoard       & Run the model on webcam, stream detections to XRP \\
+\texttt{main.py}             & XRP (MicroPython)    & Receive detections and control robot motors \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{\texttt{gather\_data.py} — Dataset Acquisition (Moderator)}
+
+This script downloads labeled images from Open Images for the specified object classes and converts bounding box annotations into the YOLO format required for training. It reads annotation data from local CSV files in the \texttt{oi\_csv/} directory (which must be present) and produces a \texttt{dataset\_<ClassName>/} folder containing \texttt{images/} and \texttt{labels/} subdirectories.
+
+\begin{lstlisting}[language=bash, caption={Gathering datasets for the three challenge classes}]
+python gather_data.py Rocket Tire "Tin can" --limit 600 \
+    --csv-dir "oi_csv" --root "Sample_Datasets"
+\end{lstlisting}
+
+\subsubsection*{\texttt{gui\_train\_model.py} — Model Training (Student)}
+
+A graphical interface that students use to train a YOLOv11 object detection model. Students select up to three dataset folders, configure training hyperparameters, and click \textit{Train}. Once training completes, the GUI displays precision/recall and loss curves, and automatically exports the model to ONNX format (FP16 quantized) for optimized inference on the edge device.
+
+\begin{lstlisting}[language=bash, caption={Launching the training GUI}]
+python gui_train_model.py
+\end{lstlisting}
+
+\subsubsection*{\texttt{run\_model.py} — Model Deployment (Companion Computer)}
+
+Runs the trained model on a live webcam feed and streams detection results to the XRP over USB serial as JSON. Implements ACK-based flow control (the XRP replies \texttt{OK} before each new frame is sent) to prevent serial buffer overflow. Only transmits when detections change significantly, reducing unnecessary data transfer.
+
+\begin{lstlisting}[language=bash, caption={Running the detection script}]
+python run_model.py --model "runs/detect/train/weights/best.pt" \
+    --com COM5 --behaviors "0:contact,1:avoid,2:avoid"
+\end{lstlisting}
+
+The \texttt{--behaviors} flag maps each class ID (0, 1, 2) to either \texttt{contact} or \texttt{avoid}. Class IDs correspond to the order in which dataset folders were selected during training.
+
+\subsubsection*{\texttt{main.py} — Robot Control (XRP)}
+
+Runs on the XRP microcontroller itself (written in MicroPython, uploaded via Thonny). Receives the JSON detection payloads from \texttt{run\_model.py}.
+
+This script is should be fully provided to students and runs automatically when the XRP is powered on.
+
+%===========================================================
+\section{Student Guide}
+%===========================================================
+
+\subsection{Your Task}
+
+As a student, your responsibility is to \textbf{train the best possible detection model} using the provided datasets and graphical training tool. Your decisions during training directly affect your score.
+
+\pagebreak
+
+Your workflow should be as follows:
+\begin{enumerate}
+    \item Receive the three pre-labeled datasets from the moderator.
+    \item Open the training GUI and configure your model.
+    \item Train, evaluate performance, and iterate if needed.
+    \item Submit your trained model for deployment during the game run.
+\end{enumerate}
+
+\subsection{Training the Model}
+
+Launch the GUI with:
+
+\begin{lstlisting}[language=bash]
+python gui_train_model.py
+\end{lstlisting}
+
+Follow these steps inside the GUI:
+
+\begin{enumerate}
+    \item Click each \textbf{Dataset} tile and browse to the corresponding class folder. Each folder must contain \texttt{images/} and \texttt{labels/} subdirectories inside it.
+    \item Click \textbf{Use Dataset} on each tile to include it in training (the border turns blue when active).
+    \item Configure your training parameters.
+    \item Click \textbf{Train YOLOv11} and monitor the output log. Training runs in the background.
+    \item Once complete, review the \textbf{Precision/Recall} and \textbf{Loss} charts to evaluate your model.
+\end{enumerate}
+
+Your trained model will be saved to \texttt{runs/detect/trainX/weights/best.pt}, and an ONNX export will be generated automatically in the same folder.
+
+
+\begin{comment}
+    
+
+\subsection{Scoring Strategy}
+\label{sec:scoring_strategy}
+
+Your score is affected by three factors you can control: model accuracy (mAP), model size, and field performance. The key trade-offs are:
+
+\begin{itemize}
+    \item \textbf{Model size:} A smaller model (nano) trains faster, runs faster on the edge device, and earns a $\times 1.05$ score multiplier. A larger model may be more accurate but carries a $\times 0.95$ penalty. For most cases, \textbf{nano or small is the best choice}.
+    \item \textbf{Epochs:} More epochs generally improve accuracy, up to a point. Watch the loss curve — if it stops decreasing, additional epochs won't help. Start with 20--30 epochs.
+    \item \textbf{Train split:} A higher training split (e.g., 0.85) gives the model more data to learn from, at the cost of a smaller validation set. 0.80 is a reliable default.
+    \item \textbf{Learning rate:} Lower rates (0.005--0.01) train more carefully and are less likely to overshoot. Start at 0.01.
+    \item \textbf{mAP bonus:} Up to +15 points are awarded based on your model's average mAP across all three classes. A well-trained nano model can earn full bonus points.
+\end{itemize}
+\end{comment}
+
+\pagebreak
+%===========================================================
+\section{The Challenge - Option 1}
+%===========================================================
+
+\subsection{Rules}
+
+\subsubsection*{Overview}
+
+Each team has \textbf{120 seconds} to autonomously complete their mission. Before the run, teams declare which classes their robot will contact and which it will avoid. Once the run begins, no human intervention is permitted.
+
+\subsubsection*{Field Setup (set by referees each match)}
+
+\begin{itemize}
+    \item \textbf{Start zone:} Randomly chosen from the four corners of the field. The robot must start fully inside; the team selects its heading.
+    \item \textbf{Placement template:} One of three pre-published templates (A, B, or C) is drawn. Each defines three non-overlapping target zones (60 cm radius) and two hazard zones (50 cm radius). One cube from each class is placed at the center of a target zone.
+    \item \textbf{Cube orientation:} Each cube's image face is rotated by a random multiple of 90° before placement.
+    \item \textbf{Decoys:} Referees may place 0--2 blank or different-image cubes at least 30 cm from any zone center. Decoys are never placed inside a target or hazard zone.
+    \item \textbf{Clearance:} Minimum 30 cm between cubes; minimum 20 cm from any cube to the field boundary.
+\end{itemize}
+
+\subsubsection*{Contact Definition}
+
+A valid contact is a clear nudge that moves the target cube at least \textbf{3 cm}. Re-contacting the same cube does not score additional points.
+
+\subsection{Points System}
+
+The total score is computed as:
+
+\begin{equation}
+    \text{Total} = \bigl(\text{Field Score} \times \text{Model-Size Multiplier}\bigr) + \text{mAP Bonus} - \text{Penalties}
+\end{equation}
+
+\subsubsection*{A) Field Score (max 120 pts)}
+
+\begin{itemize}
+    \item $+30$ pts for each declared CONTACT class successfully contacted (one cube per class)
+    \item $+15$ bonus if \textit{all} declared CONTACT classes are completed
+    \item $+15$ bonus if no declared AVOID class is contacted for the entire run
+\end{itemize}
+
+\subsubsection*{B) Model-Size Multiplier}
+
+Applied once to the Field Score:
+
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Model size} & \textbf{Multiplier} \\
+\hline
+Small (nano) & $\times\ 1.05$ \\
+Medium       & $\times\ 1.00$ \\
+Large        & $\times\ 0.95$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{C) mAP Bonus (max +15 pts)}
+
+Average mAP across all three classes, multiplied by 15 and rounded. A higher mAP reflects a more accurate and reliable model.
+
+\subsubsection*{Penalties}
+
+\begin{itemize}
+    \item $-15$ pts per false contact (nudging a declared AVOID class or a decoy)
+    \item $-10$ pts for the first out-of-bounds occurrence (any part of the robot crosses the field edge)
+    \item $-20$ pts for each subsequent out-of-bounds occurrence
+\end{itemize}
+
+\subsubsection*{Tiebreakers (applied in order)}
+
+\begin{enumerate}
+    \item Fewer total penalties
+    \item Higher average mAP
+    \item Smaller model family
+\end{enumerate}
+
+%===========================================================
+\section{The Challenge - Option 2: Debris Collection Sprint}
+%===========================================================
+
+\subsection{Concept}
+
+This alternative mode replaces the open-field search with a \textbf{structured line-following course}. The robot navigates a black line path laid on the field, using its camera to identify objects placed at junctions and determine which direction to turn. The winner is the team with the \textbf{lowest adjusted time} — not the highest score.
+
+This mode shifts the emphasis from model accuracy alone to the combination of model accuracy and robot response speed, producing a more dramatic, race-like experience that is easy to judge and exciting to watch.
+
+Note that this game mode essentially \textbf{requires the AIxBoard} (or equivalent companion computer mounted on the robot), since the camera must travel with the robot to detect objects at each junction along the course.
+
+\subsubsection*{Object Roles}
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Object} & \textbf{Action} & \textbf{Narrative Role} \\
+\hline
+Tin can  & Approach and turn \textbf{left}   & Collect debris (space food canister) \\
+Tire     & Approach and turn \textbf{right}  & Collect debris (landing gear fragment) \\
+Rocket   & Drive straight, make contact      & Finish line — signals mission complete \\
+\hline
+\end{tabular}
+\end{center}
+
+The concept of \textit{collecting} replaces \textit{avoiding}: instead of steering away from objects, the robot approaches each one and turns in the designated direction, simulating the act of clearing debris from its path before continuing toward the rescue rocket.
+
+\subsection{Course Layout}
+
+The course is a black line path designed by the moderator. Unlike Option 1, \textbf{object placement is fully controlled by the moderator} — objects are placed at junctions along the path, not in random zones. This makes every team's run identical and directly comparable.
+
+\begin{itemize}
+    \item The path includes at least one junction per object class.
+    \item A \textbf{Tin can} is placed at each left-turn junction.
+    \item A \textbf{Tire} is placed at each right-turn junction.
+    \item The \textbf{Rocket} is placed at the end of the path as the finish marker.
+    \item Object cube orientation may still be randomized (rotated by multiples of 90°) to test model robustness.
+\end{itemize}
+
+\subsection{Robot Behavior}
+
+The robot follows the black line continuously. At each junction, it detects the object present and executes the corresponding action:
+
+\begin{enumerate}
+    \item \textbf{Detect} — camera identifies the object at the junction (Tin can, Tire, or Rocket).
+    \item \textbf{Approach} — robot drives toward the object until it is within collection range.
+    \item \textbf{Collect} — robot turns in the designated direction (left for Tin can, right for Tire). A successful turn in the correct direction counts as a valid collection.
+    \item \textbf{Resume} — robot reacquires the line and continues to the next junction.
+    \item \textbf{Finish} — upon detecting the Rocket, robot drives straight and makes contact. The timer stops on contact.
+\end{enumerate}
+
+\subsection{Timing and Adjustments}
+
+The base score is the \textbf{elapsed time from run start to rocket contact}. The following adjustments are applied after the run:
+
+\begin{center}
+\begin{tabular}{|l|c|l|}
+\hline
+\textbf{Event} & \textbf{Time Adjustment} & \textbf{Notes} \\
+\hline
+Correct collection (right direction) & $-5$ seconds  & Per object correctly collected \\
+Wrong turn direction                 & $+10$ seconds & Per incorrect collection \\
+Human intervention / repositioning  & $+30$ seconds & Per occurrence \\
+Failing to collect an object         & $+15$ seconds & Object skipped without turning \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{equation}
+    \text{Adjusted Time} = \text{Elapsed Time} - (5 \times \text{Correct Collections}) + \text{Penalties}
+\end{equation}
+
+The team with the \textbf{lowest adjusted time} wins. If a team fails to reach the rocket within the time limit, they are ranked below all teams that completed the course, ordered by number of objects correctly collected.
+
+\subsubsection*{Tiebreakers (applied in order)}
+
+\begin{enumerate}
+    \item More objects correctly collected
+    \item Higher average mAP
+    \item Smaller model family
+\end{enumerate}
+
+\subsection{Moderator Notes}
+
+\begin{itemize}
+    \item The line path should be designed so that every junction has a clear approach angle — the camera must have a direct view of the object before the robot reaches the turn point.
+    \item Object cubes should be placed \textbf{at} the junction, not past it, so the robot detects the object before committing to a direction.
+    \item Course difficulty can be tuned by adjusting the number of junctions, the tightness of turns, or the length of straight segments between objects.
+    \item All teams run the \textbf{exact same course} in the same session. The moderator resets object positions between runs.
+\end{itemize}
+
+%===========================================================
+\section{Moderator Reference}
+%===========================================================
+
+\subsection{Dataset Preparation}
+
+Datasets are gathered once and distributed to students as pre-labeled folders. The \texttt{oi\_csv/} directory must be present and contain the following Open Images annotation files:
+
+\begin{itemize}
+    \item \texttt{class-descriptions-boxable.csv}
+    \item \texttt{train-annotations-bbox.csv}
+    \item \texttt{validation-annotations-bbox.csv} (optional)
+    \item \texttt{test-annotations-bbox.csv} (optional)
+\end{itemize}
+
+Run \texttt{gather\_data.py} once per class. A limit of 600 images per class is recommended to balance training time against dataset size:
+
+\begin{lstlisting}[language=bash]
+python gather_data.py Rocket Tire "Tin can" --limit 600 \
+    --csv-dir "oi_csv" --root "Sample_Datasets"
+\end{lstlisting}
+
+Distribute the resulting \texttt{dataset\_Rocket/}, \texttt{dataset\_Tire/}, and \texttt{dataset\_Tin can/} folders to each team.
+
+\subsection{Deploying the Detection Pipeline}
+
+Once a student submits their trained model, the deployment steps are:
+
+\begin{enumerate}
+    \item Upload \texttt{main.py} to the XRP using Thonny (connect via micro-USB, right-click the XRP device, upload file).
+    \item Connect the companion computer (PC or AIxBoard) to the XRP via USB and identify the COM port (e.g., \texttt{COM5} on Windows, \texttt{/dev/ttyUSB0} on Linux).
+    \item Launch the detection script with the student's model and their declared contact/avoid configuration:
+\end{enumerate}
+
+\begin{lstlisting}[language=bash]
+python run_model.py --model "path/to/best.pt" \
+    --com COM5 --behaviors "0:contact,1:avoid,2:avoid"
+\end{lstlisting}
+
+The class IDs (0, 1, 2) correspond to the order datasets were selected during training. The mapping is stored in \texttt{runs/detect/trainX/data.yaml}.
+
+\subsection{Field Setup Checklist}
+
+\begin{itemize}
+    \item[$\square$] Draw start zone corner (random, one of four)
+    \item[$\square$] Draw placement template (A, B, or C)
+    \item[$\square$] Place one cube per class at assigned target zone centers
+    \item[$\square$] Rotate each cube face by a random multiple of 90°
+    \item[$\square$] Place hazard cube(s) in hazard zones; ensure at least one blocks a straight-line path to a target $\geq$50\% of the time
+    \item[$\square$] Optionally place 0--2 decoy cubes (min 30 cm from any zone center)
+    \item[$\square$] Verify all clearance distances (30 cm cube-to-cube, 20 cm cube-to-boundary)
+\end{itemize}
+
+%===========================================================
+\section{Open Questions}
+%===========================================================
+
+The following decisions affect the logistics of running the challenge and should be resolved before the event:
+
+\begin{itemize}
+    \item \textbf{What PC will students use for training?} Training time varies significantly: a CPU-only machine takes approximately 1--2 hours for 20 epochs with a nano model, while a CUDA-capable NVIDIA GPU reduces this to under 10 minutes. AMD GPUs do not support CUDA on Windows.
+
+    \item \textbf{Will the detection model run on a PC or the Intel AIxBoard during the game?} The AIxBoard runs untethered and can be mounted on the robot, enabling a fully wireless game run. A laptop requires a USB cable between the computer and the XRP throughout the run, which limits robot mobility and field coverage.
+\end{itemize}
+
+\bibliographystyle{unsrt}
+\bibliography{refs}
+
+\end{document}

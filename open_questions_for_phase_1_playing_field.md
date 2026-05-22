@@ -1,0 +1,8 @@
+- Where should the robot start?
+- How should the robot be positioned at the starting point?
+- How many objects will we place?
+- Where should we place the objects?
+- Do we want to have the possibility to change the position of the objects in between each round?
+- What should the robot do if it encounters a wall?
+- What should the robot do for each type of object? We know that there are two "avoid" and one "attract" objects. Should the robot go right for one of the objects, go left for the other, forward and then do a 180 spin?
+- The challenge is fully autonomous. How should we handle when a robot gets lost?
