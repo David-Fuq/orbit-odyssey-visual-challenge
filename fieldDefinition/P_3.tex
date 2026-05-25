@@ -1,0 +1,262 @@
+\documentclass[a4]{article}
+
+% PAQUETES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage{framed} % Para crear cuadros alrededor del texto
+\usepackage{makecell}
+\usepackage[english]{babel}
+%
+\usepackage[fixlanguage]{babelbib}
+    \bibliographystyle{IEEEtran}
+
+\usepackage{url}
+
+%!TEX encoding = UTF-8 Unicode
+% !TEX spellcheck = es
+
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.5 in}
+
+\usepackage{multirow, array} % para las tablas
+\usepackage{float} % para usar [H]
+\usepackage{charter}
+
+\usepackage[breaklinks=true]{hyperref}
+
+%
+% ADD PACKAGES here:
+%
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,longtable,siunitx, float, graphicx, dcolumn, bm, fancyhdr, authblk, subcaption, caption, hyperref, multicol, setspace}
+
+\usepackage{bbding}
+\usepackage{amssymb}
+\usepackage[rightcaption]{sidecap}
+%\usepackage{textcomp}
+
+\usepackage[hmarginratio=1:1, top=32mm, columnsep=20pt, headsep=\dimexpr20mm, margin=0.7in, top=1in ]{geometry}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage{algorithm}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage[noend]{algpseudocode}
+\usepackage{xcolor}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% ----------- global styles -----------
+\tikzset{
+  font=\scriptsize,                      % tiny text everywhere
+  every node/.style       = {transform shape},   % respect scale
+  startstop/.style        = {ellipse, draw, fill=blue!10,
+                             inner sep=1pt, minimum width=13mm},
+  process/.style          = {rectangle, draw, fill=orange!15,
+                             text width=26mm, inner sep=2pt, align=center},
+  decision/.style         = {diamond, draw, fill=green!15, aspect=2.3,
+                             text width=20mm, inner sep=1pt, align=center},
+  arrow/.style            = {->, >=Stealth, shorten >=1pt, shorten <=1pt}
+}
+
+\newcommand{\TODO}{\textbf{\textcolor{red}{TODO}}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\lhead{\includegraphics[scale=0.4]{CETC.png}}
+\rhead{\includegraphics[scale=0.025]{Cornell-University-Logo.png}}
+
+\newtheorem{theo}{Theorem}
+\newenvironment{theorem}
+  {\begin{mdframed}\begin{theo}}
+  {\end{theo}\end{mdframed}}
+  
+\newtheorem{prop}{Proposición}
+\newenvironment{proposition}
+  {\begin{mdframed}\begin{prop}}
+  {\end{prop}\end{mdframed}}
+
+\newtheorem{lem}{Lema}
+\newenvironment{lema}
+  {\begin{mdframed}\begin{lem}}
+  {\end{lem}\end{mdframed}}
+  
+\newtheorem{defi}{Definition}
+\newenvironment{definition}
+  {\begin{mdframed}\begin{def}}
+  {\end{def}\end{mdframed}}
+  
+\newtheorem{proof}{Proof}
+\newtheorem{remark}{Remark}
+
+\usepackage[numbers]{natbib}
+\renewcommand{\thesection}{\Roman{section}}
+%\setlength{\parskip}{\baselineskip}%
+
+\begin{document}
+
+\thispagestyle{fancy}
+
+\begin{center}
+    \textbf{\large Orbit Odyssey - Computer Vision} \\
+    {Field Definition}
+    
+    \vspace{0.7em}
+
+    David Alejandro Fuquen \\
+
+    {\small \today}
+
+\end{center}
+
+\section*{Playing Field Definition}
+
+\subsection*{Summary}
+This part of Phase 1 defines all the structure, positions, conditions and specifications for the playing field. This is the first part of the competition manual. For this case, we will consider the partition of the original field can't be taken away. 
+
+
+\section*{Field dimensions, boundaries and markings}
+We will use the same dimensions and boundaries as the original Space Odyssey. The same 4x8 field will be used, while maintaining the inner field partition. 
+
+The playing field is a rectangular arena enclosed by low-profile PVC pipe barriers on all four sides, with a central partition dividing it into two halves.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Property} & \textbf{Value} \\
+\midrule
+Total length (X-axis) & 254.00 cm (100 in) \\
+Total width (Y-axis) & 142.24 cm (56 in) \\
+Total floor area & 3.61 m\textsuperscript{2} \\
+Perimeter walls & Low-profile PVC pipe barriers \\
+Corner zones & 30.48 $\times$ 30.48 cm (12 $\times$ 12 in) at each corner \\
+Partition & \textbf{Present} --- see below \\
+\bottomrule
+\end{tabular}
+\caption{Field dimensions and boundaries.}
+\end{table}
+
+\subsubsection*{Central partition}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Property} & \textbf{Value} \\
+\midrule
+Orientation & Horizontal, centered on both axes \\
+Y-axis position & Y = 71.12 cm (28 in) --- midpoint of field width \\
+Length & 127.00 cm (50 in) --- half the field length \\
+X-axis span & X = 63.50 cm to X = 190.50 cm \\
+Left gap & X = 0 to 63.50 cm (25 in wide) \\
+Right gap & X = 190.50 to 254.00 cm (25 in wide) \\
+Height & Same as perimeter walls (low PVC pipe --- camera sees over it) \\
+\bottomrule
+\end{tabular}
+\caption{Central partition specifications.}
+\end{table}
+
+The coordinate system places the origin $(0, 0)$ at the bottom-left corner of the field. The X-axis runs left to right (0 to 254 cm) and the Y-axis runs bottom to top (0 to 142.24 cm). The partition does \textbf{not} block the camera's line of sight (the camera sits above pipe height). It only blocks the robot's driving path through the center 50 inches, forcing it to navigate around via the 25-inch gaps on either side.
+
+//TODO (David): Add an image with the field. DON'T DO THIS, I'll do it myself.
+
+\section*{Robot starting zone and placement rules}
+The robot will start in the same position as the original Space Odyssey, which is in the center of the field (in one of the sides left by the partition). The robot must be placed within a designated starting zone. The team decides the initial orientation, as the robot will be surrounded by the 3 objects.
+
+\section*{Object quantity, placement templates, and clearance constraints}
+\subsection*{Object count and class breakdown}
+This layout uses \textbf{3 objects}: 1 Rocket (contact) + 1 Tire (avoid) + 1 Tin Can (avoid). Each object has an approximate radius of 6 cm. This is a \textbf{center-start fallback} layout designed for the case where \texttt{main.py} cannot be modified --- the robot spins in place in the bottom half and detects surrounding objects without significant translational movement. All 3 objects are in the bottom half of the field.
+
+\subsection*{Robot starting position}
+
+The robot is placed off-center in the bottom half at \textbf{(50, 9) in = (127.00, 22.86) cm}. The team selects the initial heading. The robot is shifted toward the bottom wall to maximize vertical spread to the objects above.
+
+\subsection*{Object positions}
+
+The three objects are arranged in a triangle above and to the sides of the robot, all within the bottom half of the field (below the partition at Y = 71.12 cm).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{clccccc}
+\toprule
+\textbf{ID} & \textbf{Location} & \textbf{X (in)} & \textbf{Y (in)} & \textbf{X (cm)} & \textbf{Y (cm)} & \textbf{Half} \\
+\midrule
+P1 & Upper-left & 30 & 18 & 76.20 & 45.72 & Bottom \\
+P2 & Upper-right & 70 & 18 & 177.80 & 45.72 & Bottom \\
+P3 & Above, center & 50 & 20 & 127.00 & 50.80 & Bottom \\
+\bottomrule
+\end{tabular}
+\caption{Object positions --- Layout P\_3 (center start).}
+\end{table}
+
+\subsection*{Distance from robot to each object}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc}
+\toprule
+\textbf{ID} & \textbf{Distance to robot (cm)} & \textbf{Distance to robot (in)} \\
+\midrule
+P1 & 55.6 & 21.9 \\
+P2 & 55.6 & 21.9 \\
+P3 & 28.0 & 11.0 \\
+\bottomrule
+\end{tabular}
+\caption{Distance from robot center to each object.}
+\end{table}
+
+\subsection*{Clearance verification}
+
+\textbf{Minimum clearances:} object center to wall $\geq$ 20 cm, object center to partition $\geq$ 20 cm, object center to object center $\geq$ 35 cm, objects must be outside all corner zones.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccccccc}
+\toprule
+\textbf{ID} & \textbf{Left wall} & \textbf{Right wall} & \textbf{Bottom wall} & \textbf{Partition} & \textbf{Min wall} & \textbf{Nearest obj.} \\
+\midrule
+P1 & 76.2 & 177.8 & 45.7 & 25.4 \checkmark & 45.7 \checkmark & 101.6 (P2) \checkmark \\
+P2 & 177.8 & 76.2 & 45.7 & 25.4 \checkmark & 45.7 \checkmark & 51.3 (P3) \checkmark \\
+P3 & 127.0 & 127.0 & 50.8 & 20.3 \checkmark & 50.8 \checkmark & 51.3 (P2) \checkmark \\
+\bottomrule
+\end{tabular}
+\caption{Clearance verification (all values in cm).}
+\end{table}
+
+\subsection*{Navigation notes}
+
+\begin{itemize}
+    \item The camera sees all 3 objects from the robot's starting position (the partition does not block vision).
+    \item All objects are in the bottom half --- the robot never needs to cross the partition.
+    \item P3 is closest ($\sim$28 cm), directly above the robot. P1 and P2 are $\sim$56 cm away, symmetrically placed left and right.
+    \item The robot can reach any object by spinning to face it and driving forward.
+\end{itemize}
+
+\subsection*{Suggested class rotation templates}
+
+With only 3 objects and 3 classes, there are 6 possible permutations. Three representative templates:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Template} & \textbf{P1} & \textbf{P2} & \textbf{P3} \\
+\midrule
+A & Rocket & Tire & Tin Can \\
+B & Tin Can & Rocket & Tire \\
+C & Tire & Tin Can & Rocket \\
+\bottomrule
+\end{tabular}
+\caption{Class rotation templates.}
+\end{table}
+
+
+
+
+\end{document}

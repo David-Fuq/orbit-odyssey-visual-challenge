@@ -1,0 +1,536 @@
+\documentclass[a4]{article}
+
+% PAQUETES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage{framed} % Para crear cuadros alrededor del texto
+\usepackage{makecell}
+\usepackage[english]{babel}
+%
+\usepackage[fixlanguage]{babelbib}
+    \bibliographystyle{IEEEtran}
+
+\usepackage{url}
+
+%!TEX encoding = UTF-8 Unicode
+% !TEX spellcheck = es
+
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.5 in}
+
+\usepackage{multirow, array} % para las tablas
+\usepackage{float} % para usar [H]
+\usepackage{charter}
+
+\usepackage[breaklinks=true]{hyperref}
+
+%
+% ADD PACKAGES here:
+%
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,longtable,siunitx, float, graphicx, dcolumn, bm, fancyhdr, authblk, subcaption, caption, hyperref, multicol, setspace}
+
+\usepackage{bbding}
+\usepackage{amssymb}
+\usepackage[rightcaption]{sidecap}
+%\usepackage{textcomp}
+
+\usepackage[hmarginratio=1:1, top=32mm, columnsep=20pt, headsep=\dimexpr20mm, margin=0.7in, top=1in ]{geometry}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage{algorithm}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage[noend]{algpseudocode}
+\usepackage{xcolor}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% ----------- global styles -----------
+\tikzset{
+  font=\scriptsize,                      % tiny text everywhere
+  every node/.style       = {transform shape},   % respect scale
+  startstop/.style        = {ellipse, draw, fill=blue!10,
+                             inner sep=1pt, minimum width=13mm},
+  process/.style          = {rectangle, draw, fill=orange!15,
+                             text width=26mm, inner sep=2pt, align=center},
+  decision/.style         = {diamond, draw, fill=green!15, aspect=2.3,
+                             text width=20mm, inner sep=1pt, align=center},
+  arrow/.style            = {->, >=Stealth, shorten >=1pt, shorten <=1pt}
+}
+
+\newcommand{\TODO}{\textbf{\textcolor{red}{TODO}}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\lhead{\includegraphics[scale=0.4]{CETC.png}}
+\rhead{\includegraphics[scale=0.025]{Cornell-University-Logo.png}}
+
+\newtheorem{theo}{Theorem}
+\newenvironment{theorem}
+  {\begin{mdframed}\begin{theo}}
+  {\end{theo}\end{mdframed}}
+  
+\newtheorem{prop}{Proposición}
+\newenvironment{proposition}
+  {\begin{mdframed}\begin{prop}}
+  {\end{prop}\end{mdframed}}
+
+\newtheorem{lem}{Lema}
+\newenvironment{lema}
+  {\begin{mdframed}\begin{lem}}
+  {\end{lem}\end{mdframed}}
+  
+\newtheorem{defi}{Definition}
+\newenvironment{definition}
+  {\begin{mdframed}\begin{def}}
+  {\end{def}\end{mdframed}}
+  
+\newtheorem{proof}{Proof}
+\newtheorem{remark}{Remark}
+
+\usepackage[numbers]{natbib}
+\renewcommand{\thesection}{\Roman{section}}
+%\setlength{\parskip}{\baselineskip}%
+
+\begin{document}
+
+\thispagestyle{fancy}
+
+\begin{center}
+    \textbf{\large Orbit Odyssey - Computer Vision} \\
+    {Rules and Points System}
+    
+    \vspace{0.7em}
+
+    David Alejandro Fuquen \\
+
+    {\small \today}
+
+\end{center}
+
+\section*{Game Rules and Points System}
+
+\subsection*{Summary}
+This part of Phase 1 defines the Game Rules and Points System for the Challenge. 
+
+\section*{Rules of the Game}
+This section applies to all corner-start layouts: NP\_5, NP\_6, P\_5, and P\_6. The rules below are exhaustive. Any situation not explicitly permitted is \textbf{prohibited}. If an ambiguity arises during competition, the head referee's ruling is final and binding.
+
+\subsection*{R1 --- Game Duration}
+Each run lasts exactly \textbf{120 seconds}. The timer starts on the referee's audible start signal and ends on the buzzer. The timer \textbf{never pauses} for any reason, including rescues. Any object engagement completed after the buzzer does not count.
+
+\subsection*{R2 --- Starting Position}
+The robot must be placed \textbf{fully inside} the designated corner zone (30.48 $\times$ 30.48 cm). The corner is selected by the referee before each heat and is the same for all teams in that heat. No part of the robot may extend beyond the corner zone boundary at the moment of the start signal.
+
+\subsection*{R3 --- Initial Heading}
+The team selects the robot's initial heading (the direction the camera faces). This is the \textbf{only human decision} permitted during the challenge. Once the robot is placed and the heading is set, no further adjustments are allowed.
+
+\subsection*{R4 --- Hands-Off Rule}
+From the start signal until the buzzer, \textbf{no team member may touch the robot, any object, the field surface, or the field walls}. The sole exception is the rescue procedure (Rule R10). Any unauthorized touch results in the run being \textbf{immediately terminated} with the score recorded up to that point.
+
+\subsection*{R5 --- Software Integrity}
+\begin{enumerate}[label=\alph*)]
+    \item The \texttt{main.py} (XRP robot code) and \texttt{run\_model.py} (AIxBoard inference script) provided by the organizers must be used \textbf{without modification}. Teams may not add, remove, or alter any line of these scripts.
+    \item The only team-specific software artifact is the trained \textbf{ONNX model file}, produced through the provided \texttt{gui\_train\_model.py} training pipeline.
+    \item The ONNX model must be verified against the team's cryptographic receipt before the run begins (see Section~V).
+    \item Any team found to have modified \texttt{main.py}, \texttt{run\_model.py}, or to be using an ONNX model that does not match their receipt will be \textbf{disqualified from the heat}.
+\end{enumerate}
+
+\subsection*{R6 --- Autonomy Requirement}
+The robot must operate \textbf{fully autonomously} during the run. The following are prohibited:
+\begin{itemize}
+    \item Remote control of any kind (Bluetooth, Wi-Fi, IR, or any other wireless protocol).
+    \item External signals to the robot (verbal commands, hand gestures, laser pointers, lights, sounds, or any deliberate stimulus intended to influence robot behavior).
+    \item Offboard computation (the AIxBoard must run inference locally; no cloud or external-server calls).
+    \item Pre-programmed waypoints or hardcoded object coordinates. The robot must rely solely on real-time camera detections.
+\end{itemize}
+
+\subsection*{R7 --- Permitted Hardware Modifications}
+Teams may adjust the following hardware variables on their robot:
+\begin{itemize}
+    \item Camera height and tilt angle.
+    \item Onboard lighting additions (LEDs, small lamps) to improve detection.
+\end{itemize}
+No other hardware modifications are permitted. Teams may not add sensors, change wheels, attach bumpers, add mechanical arms, or alter the robot chassis in any way.
+
+\subsection*{R8 --- Object Placement}
+Objects are placed by the referee according to the active placement template. The positions are fixed and identical for all teams in a heat. Teams may \textbf{not} move, rotate, reposition, or in any way interfere with objects on the field. If a team member touches an object (other than through the robot during the run), the run is immediately terminated.
+
+\subsection*{R9 --- Class Rotation}
+Object positions (P1, P2, \ldots) are physically fixed for the entire event. Between heats, the referee changes which object class (Rocket, Tire, Tin Can) is assigned to which position by selecting a different rotation template. All teams in the same heat face the \textbf{same template}.
+
+\subsection*{R10 --- Rescue Procedure}
+If the robot becomes stuck, unresponsive, or otherwise unable to continue:
+\begin{enumerate}[label=\arabic*.]
+    \item A team member must \textbf{raise their hand} and wait for the referee to acknowledge.
+    \item Only after acknowledgment may the team member enter the field, pick up the robot, and place it in \textbf{any corner zone}.
+    \item The team member selects a new heading for the robot within the corner zone.
+    \item The team member must immediately leave the field. The game resumes \textbf{without pausing the timer}.
+    \item The \textbf{first rescue} per run is free (no point penalty). Each subsequent rescue incurs a \textbf{$-15$ point penalty}.
+    \item During a rescue, the team member may \textbf{not} touch or move any object on the field.
+\end{enumerate}
+
+\subsection*{R11 --- Partition Rules (P\_5 and P\_6 layouts only)}
+When the central partition is present:
+\begin{itemize}
+    \item The partition is a physical barrier that the robot cannot drive through. It must navigate around via the 25-inch gaps on either side.
+    \item The partition does \textbf{not} block the camera's view (it is low PVC pipe).
+    \item Colliding with the partition is \textbf{not} a penalty. The robot's wall-avoidance logic handles it automatically.
+\end{itemize}
+
+\subsection*{R12 --- Field Access}
+No practice runs are permitted on the competition field. Teams may observe the field layout but may not place their robot on the field outside of official runs.
+
+\subsection*{R13 --- Sportsmanship}
+Any attempt to sabotage another team's run (interfering with the field, objects, or electronics) results in \textbf{immediate disqualification} from the event.
+
+\section*{Complete point system (field performance, mAP bonus, model-size multiplier)}
+\subsection*{Total Score Formula}
+
+\begin{equation*}
+\boxed{\text{Total} = \bigl(\text{Field Performance} \times \text{Model-Size Multiplier}\bigr) + \text{mAP Bonus} - \text{Penalties}}
+\end{equation*}
+
+Each component is defined in detail below.
+
+\subsection*{A) Field Performance}
+
+Field Performance is the sum of all object engagement points plus applicable bonuses. Each object on the field may be scored \textbf{at most once} (first interaction only --- re-engaging the same object does not add or subtract points).
+
+\subsubsection*{Object engagement scoring}
+
+There are three object classes with fixed behaviors:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{5.5cm}cc}
+\toprule
+\textbf{Action} & \textbf{Points} & \textbf{Referee observes} \\
+\midrule
+\textbf{Correct Rocket contact} --- robot approaches, nudges the Rocket $\geq$3 cm, then reverses & $+20$ & Object visibly displaced $\geq$3 cm \\
+\addlinespace
+\textbf{Correct Tire avoid} --- robot approaches to $\sim$20 cm, pauses, then turns \textbf{RIGHT} without contact & $+15$ & Robot turns right near Tire, no displacement \\
+\addlinespace
+\textbf{Correct Tin Can avoid} --- robot approaches to $\sim$20 cm, pauses, then turns \textbf{LEFT} without contact & $+15$ & Robot turns left near Tin Can, no displacement \\
+\addlinespace
+\textbf{Wrong-direction avoid} --- robot approaches an avoid object but turns the wrong direction (e.g., turns left near a Tire) & $+5$ & Robot approached but turned wrong way \\
+\addlinespace
+\textbf{False contact} --- robot nudges an avoid object $\geq$3 cm & $-15$ & Avoid object visibly displaced \\
+\addlinespace
+\textbf{No interaction} --- robot never engages an object & $0$ & Object untouched at end of run \\
+\bottomrule
+\end{tabular}
+\caption{Per-object scoring.}
+\end{table}
+
+\textbf{Definitions:}
+\begin{itemize}
+    \item \textbf{Nudge:} The robot physically pushes the object, displacing it $\geq$3 cm from its original position. Measured by the referee at the moment of contact.
+    \item \textbf{Approach:} The robot drives toward the object and reaches a distance of approximately 20 cm or less. The referee must observe a clear, deliberate approach.
+    \item \textbf{Turn direction:} After approaching an avoid object, the robot must visibly turn to the \textbf{right} (for Tire) or \textbf{left} (for Tin Can) and drive away. ``Right'' and ``left'' are defined relative to the robot's heading at the moment of the turn.
+\end{itemize}
+
+\subsubsection*{Bonuses}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{4cm}p{7cm}c}
+\toprule
+\textbf{Bonus} & \textbf{Condition} & \textbf{Points} \\
+\midrule
+Perfect Contact & All Rockets on the field have been correctly contacted ($+20$ each) & $+15$ \\
+Clean Avoid & No avoid object (Tire or Tin Can) was physically touched during the entire 120-second run & $+15$ \\
+\bottomrule
+\end{tabular}
+\caption{Bonus points.}
+\end{table}
+
+\subsubsection*{Maximum Field Performance by layout}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Layout} & \textbf{Objects} & \textbf{Calculation} & \textbf{Max} \\
+\midrule
+NP\_5 / P\_5 & 1R + 2T + 2C & $20 + (15 \times 4) + 15 + 15$ & 110 \\
+NP\_6 / P\_6 & 2R + 2T + 2C & $(20 \times 2) + (15 \times 4) + 15 + 15$ & 130 \\
+\bottomrule
+\end{tabular}
+\caption{Maximum Field Performance scores.}
+\end{table}
+
+\subsection*{B) Model-Size Multiplier}
+
+The multiplier rewards teams that achieve good results with smaller, more efficient models. It is applied \textbf{once} to the Field Performance score.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Tier} & \textbf{YOLOv11 Variant} & \textbf{Multiplier} \\
+\midrule
+Small & \texttt{yolo11n} (nano) or \texttt{yolo11s} (small) & $\times 1.05$ \\
+Medium & \texttt{yolo11m} (medium) & $\times 1.00$ \\
+Large & \texttt{yolo11l} (large) or \texttt{yolo11x} (xlarge) & $\times 0.95$ \\
+\bottomrule
+\end{tabular}
+\caption{Model-size multiplier tiers.}
+\end{table}
+
+The model variant is recorded in the cryptographic receipt at export time and verified by judges before the run (see Section~V).
+
+\subsection*{C) mAP Bonus (max $+15$)}
+
+\begin{equation*}
+\text{mAP Bonus} = \min\!\Bigl(\bigl\lfloor \text{avg\_mAP} \times 15 \bigr\rfloor,\; 15\Bigr)
+\end{equation*}
+
+Where $\text{avg\_mAP}$ is the arithmetic mean of the per-class mAP\textsubscript{50} values across all 3 classes (Rocket, Tire, Tin Can), as reported in the cryptographic receipt. For example, if the per-class mAP values are 0.92, 0.87, and 0.81, then $\text{avg\_mAP} = 0.867$ and $\text{mAP Bonus} = \lfloor 0.867 \times 15 \rfloor = 13$.
+
+\subsection*{D) Penalties}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcp{6.5cm}}
+\toprule
+\textbf{Penalty} & \textbf{Points} & \textbf{Notes} \\
+\midrule
+Rescue (first per run) & $0$ & Free --- time cost only (timer does not pause) \\
+Rescue (each subsequent) & $-15$ & Timer does not pause \\
+\bottomrule
+\end{tabular}
+\caption{Penalties.}
+\end{table}
+
+There is no out-of-bounds penalty --- the PVC pipe walls physically contain the robot. False contacts ($-15$) are counted within the Field Performance score, not as a separate penalty.
+
+\subsection*{Worked Example}
+
+\textbf{Scenario:} Layout NP\_5 (1 Rocket + 2 Tires + 2 Tin Cans). Team uses YOLOv11s (Small tier). Average mAP = 0.85. The robot correctly contacts the Rocket ($+20$), correctly avoids both Tires ($+15 \times 2$), correctly avoids one Tin Can ($+15$), and turns the wrong direction on the second Tin Can ($+5$). No avoid objects were physically touched. One rescue was needed.
+
+\begin{align*}
+\text{Field Performance} &= 20 + 15 + 15 + 15 + 5 + 15_{\text{(Perfect Contact)}} + 15_{\text{(Clean Avoid)}} = 100 \\
+\text{Model-Size Multiplier} &= 1.05 \\
+\text{mAP Bonus} &= \lfloor 0.85 \times 15 \rfloor = 12 \\
+\text{Penalties} &= 0 \quad \text{(first rescue is free)} \\
+\text{Total} &= (100 \times 1.05) + 12 - 0 = 105 + 12 = \mathbf{117}
+\end{align*}
+
+\section*{Penalty definitions and edge-case rulings}
+\subsection*{Penalty summary}
+
+Only two types of point deductions exist:
+
+\begin{enumerate}
+    \item \textbf{False contact ($-15$ per incident)} --- The robot physically nudges an avoid object (Tire or Tin Can) $\geq$3 cm. This is scored within Field Performance on a per-object basis. A single object can incur at most one false contact.
+    \item \textbf{Rescue penalty ($-15$ per rescue after the first)} --- The first rescue per run is free. Each additional rescue costs $-15$ points, deducted from the total after the multiplier is applied.
+\end{enumerate}
+
+\subsection*{Edge-case rulings}
+
+The following rulings are binding and must be applied consistently by all referees.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{5cm}p{8cm}}
+\toprule
+\textbf{Situation} & \textbf{Ruling} \\
+\midrule
+Robot contacts the same object more than once & Only the \textbf{first} interaction counts. No additional points are awarded or deducted for subsequent contacts with the same object. \\
+\addlinespace
+Robot knocks an object completely off the field & The contact is scored normally (positive or negative depending on object class). The object is \textbf{not} replaced --- it is out of play for the rest of the run. \\
+\addlinespace
+Object moves without robot contact (vibration, wind, referee bump) & Does \textbf{not} count as a robot interaction. Referee discretion. If the displacement is significant ($>$5 cm), the referee may pause the timer to reposition the object. \\
+\addlinespace
+Robot collides with the partition or a perimeter wall & \textbf{Not a penalty.} The robot's rangefinder-based wall avoidance handles this automatically. Collisions with walls are expected behavior. \\
+\addlinespace
+Robot is mid-action when the buzzer sounds & The action counts \textbf{only if completed before the buzzer}. ``Completed'' means: for contact, the object has been displaced $\geq$3 cm; for avoidance, the robot has completed its turn. If the robot is still approaching an object when the timer expires, no points are awarded for that object. \\
+\addlinespace
+Serial connection drops during the run & \textbf{Not a penalty.} The robot reverts to its search behavior. The team may request a rescue if the robot becomes stuck. \\
+\addlinespace
+Referee places an object in the wrong position & If discovered \textbf{during} the run, the run is stopped and replayed with the correct placement. If discovered \textbf{after} the run, the score stands. \\
+\addlinespace
+Robot tips over & The team must request a rescue (Rule R10). The toppled robot counts as stuck. \\
+\addlinespace
+Robot drives over an object without displacing it & No interaction is recorded. The robot must visibly displace ($\geq$3 cm) or visibly approach and turn to score. \\
+\addlinespace
+Avoid object displaced less than 3 cm by incidental robot contact & \textbf{Not} a false contact. The 3 cm threshold must be met for any contact (positive or negative) to be scored. \\
+\addlinespace
+Team member enters the field without raising hand first & The run is \textbf{immediately terminated}. Score is recorded up to that point. \\
+\bottomrule
+\end{tabular}
+\caption{Edge-case rulings.}
+\end{table}
+
+\section*{Tiebreaker hierarchy}
+If two or more teams have the same Total Score, the following tiebreakers are applied \textbf{in order} until the tie is resolved:
+
+\begin{enumerate}
+    \item \textbf{Fewer total penalties.} Count the total number of penalty-incurring events: false contacts (each $-15$ within Field Performance) plus rescue penalties (each $-15$ after the first rescue). The team with fewer penalty events wins the tiebreaker.
+
+    \item \textbf{Higher average mAP.} Compare the average mAP\textsubscript{50} across all 3 classes as reported in the cryptographic receipt. The team with the higher average mAP wins.
+
+    \item \textbf{Smaller model tier.} The team using the smaller model tier wins. Tier ranking: Small $>$ Medium $>$ Large. If both teams are in the same tier, this tiebreaker is skipped.
+
+    \item \textbf{Co-champions.} If the tie remains after all three tiebreakers, the teams are declared \textbf{co-champions} for that placement. No further tiebreaker is applied.
+\end{enumerate}
+
+\textbf{Note:} Tiebreakers are applied to the \textbf{final Total Score} across all runs in the event (if multiple runs are held). If the event uses a single-run format, tiebreakers apply to that single run's score.
+
+\section*{Integration of cryptographic receipt verification into scoring workflow}
+The cryptographic receipt system ensures that model metrics (mAP, model variant) are tamper-proof and were generated at training time, not fabricated after the fact.
+
+\subsection*{What the receipt contains}
+
+Each team's receipt is generated automatically by the training pipeline at ONNX export time. It contains:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Field} & \textbf{Description} \\
+\midrule
+Model file hash & SHA-256 hash of the exported ONNX file \\
+YOLOv11 variant & Architecture used (e.g., \texttt{yolo11n}, \texttt{yolo11s}, \texttt{yolo11m}) \\
+Per-class mAP\textsubscript{50} & mAP value for each of the 3 classes (Rocket, Tire, Tin Can) \\
+Export timestamp & Date and time the model was exported \\
+\bottomrule
+\end{tabular}
+\caption{Cryptographic receipt fields.}
+\end{table}
+
+\subsection*{Pre-run verification workflow}
+
+\begin{enumerate}
+    \item \textbf{Before the run begins}, each team presents their cryptographic receipt to the judges.
+    \item The judge computes the SHA-256 hash of the team's ONNX model file on the AIxBoard and verifies it matches the receipt.
+    \item The judge reads the YOLOv11 variant from the receipt and determines the \textbf{model-size tier} (Small / Medium / Large).
+    \item The judge reads the per-class mAP\textsubscript{50} values, computes the average, and calculates the \textbf{mAP Bonus}.
+    \item The model-size multiplier and mAP bonus are recorded on the scorecard \textbf{before the run starts}. These values are fixed and do not change based on field performance.
+\end{enumerate}
+
+\subsection*{Missing or invalid receipt}
+
+\begin{itemize}
+    \item If a team cannot present a receipt: \textbf{mAP Bonus = 0} and \textbf{Model-Size Multiplier = 0.95} (Large tier assumed).
+    \item If the ONNX file hash does not match the receipt: the receipt is considered invalid. Same penalties as missing receipt.
+    \item The team may still compete and earn Field Performance points.
+\end{itemize}
+
+\section*{Printable scorecard template for referees} 
+The following is a rough scorecard layout. Adapt the number of object rows to the specific layout (5 or 6 objects).
+
+\subsection*{Header}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|p{5cm}|l|p{3cm}|}
+\hline
+\textbf{Team Name} & \rule{5cm}{0.4pt} & \textbf{Date} & \rule{3cm}{0.4pt} \\
+\hline
+\textbf{Heat \#} & \rule{5cm}{0.4pt} & \textbf{Round \#} & \rule{3cm}{0.4pt} \\
+\hline
+\textbf{Layout} & \rule{5cm}{0.4pt} & \textbf{Template} & \rule{3cm}{0.4pt} \\
+\hline
+\textbf{Start Corner} & \rule{5cm}{0.4pt} & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{Pre-Run (from cryptographic receipt)}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Model Variant} & \multicolumn{2}{c|}{\rule{3cm}{0.4pt}} & \textbf{Tier} & $\square$ Small \quad $\square$ Medium \quad $\square$ Large \\
+\hline
+\textbf{mAP (Rocket)} & \rule{2cm}{0.4pt} & \textbf{mAP (Tire)} & \rule{2cm}{0.4pt} & \textbf{mAP (Tin Can)} \quad \rule{2cm}{0.4pt} \\
+\hline
+\textbf{Avg mAP} & \rule{2cm}{0.4pt} & \textbf{mAP Bonus} & \multicolumn{2}{c|}{\rule{2cm}{0.4pt} / 15} \\
+\hline
+\textbf{Multiplier} & \multicolumn{4}{c|}{\rule{2cm}{0.4pt}} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{Field Performance}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Position} & \textbf{Object Class} & \textbf{Action Observed} & \textbf{Correct?} & \textbf{Points} \\
+\hline
+P1 & \rule{2cm}{0.4pt} & $\square$ Contact \quad $\square$ Avoid R \quad $\square$ Avoid L \quad $\square$ None & $\square$ Y $\square$ N & \rule{1.5cm}{0.4pt} \\
+\hline
+P2 & \rule{2cm}{0.4pt} & $\square$ Contact \quad $\square$ Avoid R \quad $\square$ Avoid L \quad $\square$ None & $\square$ Y $\square$ N & \rule{1.5cm}{0.4pt} \\
+\hline
+P3 & \rule{2cm}{0.4pt} & $\square$ Contact \quad $\square$ Avoid R \quad $\square$ Avoid L \quad $\square$ None & $\square$ Y $\square$ N & \rule{1.5cm}{0.4pt} \\
+\hline
+P4 & \rule{2cm}{0.4pt} & $\square$ Contact \quad $\square$ Avoid R \quad $\square$ Avoid L \quad $\square$ None & $\square$ Y $\square$ N & \rule{1.5cm}{0.4pt} \\
+\hline
+P5 & \rule{2cm}{0.4pt} & $\square$ Contact \quad $\square$ Avoid R \quad $\square$ Avoid L \quad $\square$ None & $\square$ Y $\square$ N & \rule{1.5cm}{0.4pt} \\
+\hline
+P6 & \rule{2cm}{0.4pt} & $\square$ Contact \quad $\square$ Avoid R \quad $\square$ Avoid L \quad $\square$ None & $\square$ Y $\square$ N & \rule{1.5cm}{0.4pt} \\
+\hline
+\multicolumn{4}{|r|}{\textbf{Object Subtotal}} & \rule{1.5cm}{0.4pt} \\
+\hline
+\end{tabular}
+\end{table}
+
+\textit{Note: Cross out the P6 row for 5-object layouts.}
+
+\subsection*{Bonuses and Penalties}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Item} & \textbf{Awarded?} & \textbf{Points} \\
+\hline
+Perfect Contact (all Rockets contacted) & $\square$ Yes \quad $\square$ No & \rule{1.5cm}{0.4pt} \\
+\hline
+Clean Avoid (no avoid objects touched) & $\square$ Yes \quad $\square$ No & \rule{1.5cm}{0.4pt} \\
+\hline
+Rescues used: \rule{1cm}{0.4pt} (first is free) & Penalties: & \rule{1.5cm}{0.4pt} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{Final Calculation}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|r|}
+\hline
+\textbf{A --- Field Performance} (Object Subtotal + Bonuses) & \rule{3cm}{0.4pt} \\
+\hline
+\textbf{B --- Model-Size Multiplier} & $\times$ \rule{2cm}{0.4pt} \\
+\hline
+\textbf{A $\times$ B} & \rule{3cm}{0.4pt} \\
+\hline
+\textbf{C --- mAP Bonus} & $+$ \rule{2cm}{0.4pt} \\
+\hline
+\textbf{D --- Penalties} (rescue penalties) & $-$ \rule{2cm}{0.4pt} \\
+\hline
+\textbf{TOTAL = (A $\times$ B) + C $-$ D} & \rule{3cm}{0.4pt} \\
+\hline
+\end{tabular}
+\end{table}
+
+\vspace{1em}
+
+\begin{tabular}{p{6cm}p{6cm}}
+\textbf{Referee Name:} \rule{5cm}{0.4pt} & \textbf{Signature:} \rule{5cm}{0.4pt} \\
+\end{tabular}
+
+
+\end{document}

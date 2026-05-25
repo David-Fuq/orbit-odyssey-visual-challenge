@@ -1,42 +1,48 @@
-# Field Overview
-
 # XRP Orbit Odyssey: Playing Field Dimensional Specifications
 
 ### 1. Global Dimensions & Coordinate System
 
-* **Total Field Length (X-Axis):** 272.54 cm
-* **Total Field Width (Y-Axis):** 152.78 cm
-* **Total Floor Surface Area:** 4.16 square meters
+* **Total Field Length (X-Axis):** 254.00 cm (100 in)
+* **Total Field Width (Y-Axis):** 142.24 cm (56 in)
+* **Total Floor Surface Area:** 3.61 square meters
 * **Coordinate Boundaries:**
-* **X-Axis Range:** 0.00 cm to 272.54 cm
-* **Y-Axis Range:** 0.00 cm to 152.78 cm
-* **Z-Axis Max Structural Height:** ~63.50 cm
-
-
-
----
+  * **X-Axis Range:** 0.00 cm to 254.00 cm
+  * **Y-Axis Range:** 0.00 cm to 142.24 cm
 
 ### 2. Outer Perimeter Wall Specifications
 
-* **Boundary Structure:** Low-profile rigid barrier enclosing the total footprint.
-* **Component Wall Pipe Length:** 62.23 cm per individual pipe segment.
-* **Pipe Outer Diameter:** 2.54 cm to 3.18 cm.
-* **Long Boundaries (X-Axis Walls at Y = 0.00 cm and Y = 152.78 cm):** * Consists of 4 interconnected 62.23 cm pipe segments plus 3D-printed corner/edge brackets to yield a total continuous length of 272.54 cm.
-* **Short Boundaries (Y-Axis Walls at X = 0.00 cm and X = 272.54 cm):** * Consists of 2 interconnected 62.23 cm pipe segments plus 3D-printed corner/edge brackets to yield a total continuous width of 152.78 cm.
-
----
+* **Boundary Structure:** Low-profile rigid pipe barrier enclosing the total footprint.
+* **Corner Zones:** 12 × 12 in (30.48 × 30.48 cm) marked at each corner.
 
 ### 3. Central Partition Wall (Interior Divider)
 
-* **X-Axis Alignment:** Positioned exactly at the longitudinal midpoint, X = 136.27 cm.
-* **Orientation:** Runs parallel to the short Y-axis boundaries.
-* **Physical Length:** 124.46 cm (Composed of 2 interconnected 62.23 cm pipe segments).
-* **Y-Axis Span:** Spans from Y = 0.00 cm (anchored to the bottom outer wall via clamps) to Y = 124.46 cm.
-
----
+* **Orientation:** Runs parallel to the **long** X-axis (horizontally), positioned at the midpoint of the Y-axis.
+* **Y-Axis Alignment:** Centered at Y = 71.12 cm (28 in).
+* **Physical Length:** 127.00 cm (50 in) — exactly half the field length.
+* **X-Axis Span:** Centered on the field. Runs from X = 63.50 cm (25 in) to X = 190.50 cm (75 in).
 
 ### 4. Clearance & Transit Spacing
 
-* **Transit Lane Gap Width:** 28.32 cm
-* **Transit Lane Location:** Spans from Y = 124.46 cm to Y = 152.78 cm along the X = 136.27 cm plane.
-* **Description:** This 28.32 cm opening is the sole physical gap at the end of the central partition wall allowing ground traversal between the two symmetric halves of the field footprint.
+* **Left Gap:** X = 0.00 cm to X = 63.50 cm (25 in / 63.50 cm wide)
+* **Right Gap:** X = 190.50 cm to X = 254.00 cm (25 in / 63.50 cm wide)
+* **Description:** Two symmetric 63.50 cm openings at either end of the central partition allow free ground traversal between the top and bottom halves. The robot (<20 cm wide) can pass through either gap comfortably.
+
+### 5. Layout Diagram (top-down, not to scale)
+
+```
+ ← ————————————— 100 in (254 cm) ————————————— →
+
+ ┌──────────────────────────────────────────────┐  ↑
+ │  [12×12]                            [12×12]  │  |
+ │                                              │  |
+ │         ┌────────────────────┐               │  28 in
+ │  25 in  │    PARTITION (50 in)│   25 in      │  (71.12 cm)
+ │  gap    │                    │   gap         │  |
+ │         └────────────────────┘               │  |
+ │                                              │  |
+ │  [12×12]                            [12×12]  │  28 in
+ │                                              │  (71.12 cm)
+ └──────────────────────────────────────────────┘  ↓
+
+                     56 in (142.24 cm)
+```
