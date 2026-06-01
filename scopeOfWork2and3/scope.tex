@@ -1,0 +1,266 @@
+\documentclass[a4]{article}
+
+% PAQUETES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage{framed} % Para crear cuadros alrededor del texto
+\usepackage{makecell}
+\usepackage[english]{babel}
+%
+\usepackage[fixlanguage]{babelbib}
+    \bibliographystyle{IEEEtran}
+
+\usepackage{url}
+
+%!TEX encoding = UTF-8 Unicode
+% !TEX spellcheck = es
+
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.5 in}
+
+\usepackage{multirow, array} % para las tablas
+\usepackage{float} % para usar [H]
+\usepackage{charter}
+
+\usepackage[breaklinks=true]{hyperref}
+
+%
+% ADD PACKAGES here:
+%
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,longtable,siunitx, float, graphicx, dcolumn, bm, fancyhdr, authblk, subcaption, caption, hyperref, multicol, setspace}
+
+\usepackage{bbding}
+\usepackage{amssymb}
+\usepackage[rightcaption]{sidecap}
+%\usepackage{textcomp}
+
+\usepackage[hmarginratio=1:1, top=32mm, columnsep=20pt, headsep=\dimexpr20mm, margin=0.7in, top=1in ]{geometry}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage{algorithm}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage[noend]{algpseudocode}
+\usepackage{xcolor}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% ----------- global styles -----------
+\tikzset{
+  font=\scriptsize,                      % tiny text everywhere
+  every node/.style       = {transform shape},   % respect scale
+  startstop/.style        = {ellipse, draw, fill=blue!10,
+                             inner sep=1pt, minimum width=13mm},
+  process/.style          = {rectangle, draw, fill=orange!15,
+                             text width=26mm, inner sep=2pt, align=center},
+  decision/.style         = {diamond, draw, fill=green!15, aspect=2.3,
+                             text width=20mm, inner sep=1pt, align=center},
+  arrow/.style            = {->, >=Stealth, shorten >=1pt, shorten <=1pt}
+}
+
+\newcommand{\TODO}{\textbf{\textcolor{red}{TODO}}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\lhead{\includegraphics[scale=0.4]{CETC.png}}
+\rhead{\includegraphics[scale=0.025]{Cornell-University-Logo.png}}
+
+\newtheorem{theo}{Theorem}
+\newenvironment{theorem}
+  {\begin{mdframed}\begin{theo}}
+  {\end{theo}\end{mdframed}}
+  
+\newtheorem{prop}{Proposición}
+\newenvironment{proposition}
+  {\begin{mdframed}\begin{prop}}
+  {\end{prop}\end{mdframed}}
+
+\newtheorem{lem}{Lema}
+\newenvironment{lema}
+  {\begin{mdframed}\begin{lem}}
+  {\end{lem}\end{mdframed}}
+  
+\newtheorem{defi}{Definition}
+\newenvironment{definition}
+  {\begin{mdframed}\begin{def}}
+  {\end{def}\end{mdframed}}
+  
+\newtheorem{proof}{Proof}
+\newtheorem{remark}{Remark}
+
+\usepackage[numbers]{natbib}
+\renewcommand{\thesection}{\Roman{section}}
+%\setlength{\parskip}{\baselineskip}%
+
+\begin{document}
+
+\thispagestyle{fancy}
+
+\begin{center}
+    \textbf{\large Orbit Odyssey - Computer Vision} \\
+    {Scope of Work - Updated Phase 2 and 3}
+    
+    \vspace{0.7em}
+
+    David Alejandro Fuquen \\
+
+    {\small \today}
+
+\end{center}
+
+\section*{Scope of Work for the Orbit Odyssey - Computer Vision Autonomous Challenge - Phase 2 and Phase 3}
+
+\subsection*{Summary}
+Updated scope of works for Phase 2 and Phase 3, updated after the completion of Phase 1.
+
+
+
+%===============================================================================
+\section*{Phase 2: Graphical User Interface}
+%===============================================================================
+
+\noindent \textbf{Estimated hours:} 42 \hfill 
+
+\vspace{0.5em}
+
+This phase creates a new, web-based GUI to work with CETC's current codebase. It also implements a cryptographic anti-cheating system: a signed, encrypted receipt that records the exact hyperparameters and results from each training run. Only moderators possess the decryption key.
+
+\subsection*{Scope of Work}
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Planning and documentation} (5 hrs)
+    \begin{itemize}
+        \item Define the 3 object used for the Computer Vision Challenege, e.g. which 3D print to use, what size, and which tin. These must be easily available worldwide.
+        \item Adapt and complete the Computer Vision presentation (PPT 7.X within the google drive folder)
+    \end{itemize}
+    \item \textbf{CETC Code Integration \& GUI creation} (15 hrs)
+    \begin{itemize}
+        \item Analyze CETC's existing training/data pipeline
+        \item Create a new GUI to interface with CETC's code structure
+        \item Ensure compatibility with CETC's dataset format and workflow
+        \item Resolve any dependency or conflicts
+    \end{itemize}
+
+    \item \textbf{Signed Receipt System} (7 hrs)
+    \begin{itemize}
+        \item Implement symmetric encryption with a moderator-held secret key
+        \item Receipt captures: hyperparameters, class names, final mAP per class, model file size, timestamp, and unique run ID
+        \item Receipt exported as encrypted \texttt{.receipt} file alongside model weights
+        \item Moderator-side decryption utility for verification
+    \end{itemize}
+
+    \item \textbf{mAP and Model-Size Extraction} (3 hrs)
+    \begin{itemize}
+        \item Programmatically extract mAP from training results CSV
+        \item Compute and record model file size (bytes)
+        \item Feed both values into the receipt and display in GUI summary
+    \end{itemize}
+
+    \item \textbf{UI Adjustments and Testing} (6 hrs)
+    \begin{itemize}
+        \item Update dataset selection flow for CETC's folder structure
+        \item Add receipt export status indicator in GUI
+        \item End-to-end testing: train $\rightarrow$ export $\rightarrow$ receipt generation $\rightarrow$ decryption verification
+    \end{itemize}
+    \item \textbf{Web application deployment} (6 hrs)
+    \begin{itemize}
+        \item Deployment of the finalized, tested web application using the server with 1/8 Nvidia A10 GPU
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Hour Breakdown}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Task} & \textbf{Hours (est.)} \\
+\midrule
+Planning \& documentation & 5.0  \\
+CETC code analysis \& integration & 15.0  \\
+Signed receipt system (Fernet) & 7.0  \\
+mAP / model-size extraction & 3.0  \\
+UI adjustments \& testing & 6.0  \\
+Web application deployment & 6.0  \\
+\midrule
+\textbf{Phase 2 Total} & \textbf{42.0}  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%===============================================================================
+\section*{Phase 3: XRP Robot Code and Testing}
+%===============================================================================
+
+\noindent \textbf{Estimated hours:} 23
+
+\vspace{0.5em}
+
+Testing and adaptation of the final part of the pipeline: utilizing the XRP robot with the model, the 3 object classes in a competition-ready environment. 
+
+\subsection*{Scope of Work}
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{State Machine Adaptation} (6 hrs)
+    \begin{itemize}
+        \item Align search/center/contact/avoid behavior with defined field dimensions
+        \item Parameterize hardcoded values (distances, speeds, delays)
+        \item Handle edge cases
+    \end{itemize}
+
+    \item \textbf{Parameter Tuning and Testing} (5 hrs)
+    \begin{itemize}
+        \item Tune turn speeds, centering threshold, approach distances for physical field
+        \item Test with actual objects (cans, wheels, rocket model)
+        \item Validate rangefinder accuracy at competition distances
+    \end{itemize}
+
+    \item \textbf{Integration Testing} (12 hrs)
+    \begin{itemize}
+        \item Full pipeline test: GUI-trained model $\rightarrow$ \texttt{run\_model.py} $\rightarrow$ XRP
+        \item Verify ACK flow control stability over full 120-second run
+        \item Confirm scoring conditions are met
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Hour Breakdown}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Task} & \textbf{Hours (est.)} \\
+\midrule
+State machine adaptation & 6.0  \\
+Parameter tuning \& testing & 5.0  \\
+Integration testing (full pipeline) & 12.0  \\
+\midrule
+\textbf{Phase 3 Total} & \textbf{23.0} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%===============================================================================
+\section*{Total Summary}
+%===============================================================================
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Phase} & \textbf{Hours} \\
+\midrule
+2. GUI Creation & 42.0   \\
+3. XRP Robot Code & 23.0   \\
+\midrule
+\textbf{Total} & \textbf{65.0}  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+
+\end{document}

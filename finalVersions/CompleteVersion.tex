@@ -119,7 +119,7 @@
 \section{Introduction \& Mission}
 %=============================================================================
 
-Welcome to the Orbit Odyssey Computer Vision Challenge. Two teams compete simultaneously on a shared arena, each training an object detection model, deploying it on an Intel AIxBoard, and letting an XRP robot act \textbf{autonomously} based on what it sees through its camera. You will not control the robot during the challenge---your model and your code determine how well the robot performs.
+Welcome to the Orbit Odyssey Computer Vision Challenge! Two teams compete simultaneously on a shared arena, each training an object detection model, deploying it on an Intel AIxBoard, and letting an XRP robot act \textbf{autonomously} based on what it sees through its camera. You will not control the robot during the challenge: your model and your code determine how well the robot performs.
 
 This manual covers everything in one place: the arena layout, object behaviors, competition rules, scoring, model training, competition day procedures, moderator instructions, and a printable scorecard.
 
@@ -140,16 +140,15 @@ Your rover must navigate the debris field:
 
 The crash site is divided by a partition wall. Each team operates on one half. There is a catch: the rover's communication window lasts only \textbf{120 seconds}. After that, the signal is lost and the mission ends. Your team's only decision is which direction the rover faces at deployment. From that moment on, the rover must rely entirely on its camera and your trained model to identify objects and decide what to do.
 
-The better your model---and the smarter your code---the better the rover performs.
+The better your model, and the smarter your code, the better the rover performs.
 
 \pagebreak
 %=============================================================================
 \section{The Arena}
 %=============================================================================
-
 \subsection*{Field dimensions}
 
-The playing field is a rectangular arena enclosed by low-profile PVC pipe barriers on all four sides, with a central partition dividing it into two halves.
+The playing field is a rectangular arena enclosed by low-profile PVC pipe barriers on all four sides, with a central partition dividing it into two halves. This is the exact same field used in the original Orbit Odyssey challenge. 
 
 \begin{table}[H]
 \centering
@@ -162,30 +161,9 @@ Total width (Y-axis) & 142.24 cm (56 in) \\
 Total floor area & 3.61 m\textsuperscript{2} \\
 Perimeter walls & Low-profile PVC pipe barriers \\
 Corner zones & 30.48 $\times$ 30.48 cm (12 $\times$ 12 in) at each corner \\
-Partition & \textbf{Present} --- see below \\
 \bottomrule
 \end{tabular}
 \caption{Field dimensions and boundaries.}
-\end{table}
-
-\subsection*{Central partition}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{ll}
-\toprule
-\textbf{Property} & \textbf{Value} \\
-\midrule
-Orientation & Horizontal, centered on both axes \\
-Y-axis position & Y = 71.12 cm (28 in) --- midpoint of field width \\
-Length & 127.00 cm (50 in) --- half the field length \\
-X-axis span & X = 63.50 cm to X = 190.50 cm \\
-Left gap & X = 0 to 63.50 cm (25 in wide) \\
-Right gap & X = 190.50 to 254.00 cm (25 in wide) \\
-Height & Same as perimeter walls (camera sees over it) \\
-\bottomrule
-\end{tabular}
-\caption{Central partition specifications.}
 \end{table}
 
 The coordinate system places the origin $(0, 0)$ at the bottom-left corner of the field. The X-axis runs left to right (0 to 254 cm) and the Y-axis runs bottom to top (0 to 142.24 cm). The partition does \textbf{not} block the camera's line of sight (the camera sits above pipe height). It blocks the robot's driving path through the center 50 inches, confining each team's robot to its own half.
@@ -324,7 +302,7 @@ P3 & 127.0 & 127.0 & 50.8 & 20.3 \checkmark & 20.3 \checkmark & 82.1 (P1) \check
 
 \subsection*{Class rotation templates}
 
-Object positions are physically fixed. Between heats, the referee assigns classes to positions using one of these templates. Both halves use the same template simultaneously.
+Object positions are physically fixed. Between rounds, the referee assigns classes to positions using one of these templates. Both halves use the same template simultaneously.
 
 \begin{table}[H]
 \centering
@@ -344,7 +322,6 @@ C & Tire & Tin Can & Rocket \\
 
 \begin{itemize}
     \item Each team's robot operates entirely within its own half. The partition physically prevents crossing.
-    \item The camera sees all 3 objects from the starting position (the partition does not block vision).
     \item The robot starts at the centroid of the triangle. P3 (or P3') is closest ($\sim$20 cm), directly above (or below). P1 and P2 are $\sim$77 cm away, near the left and right walls.
     \item The robot can reach any object by spinning to face it and driving forward.
 \end{itemize}
@@ -400,7 +377,7 @@ Each object is scored \textbf{exactly once}: the first time the robot engages it
 
 \subsection*{Misclassification consequences}
 
-If the model \textit{misclassifies} an object---for example, labels a Tire as a Tin Can---the robot will perform the wrong rotation. This earns partial credit ($+5$, wrong-direction avoid) but costs the full $+15$.
+If the model \textit{misclassifies} an object (for example, labels a Tire as a Tin Can) the robot will perform the wrong rotation. This earns partial credit ($+5$, wrong-direction avoid) but costs the full $+15$.
 
 If the robot physically \textit{touches} an avoid object, that is a \textbf{false contact} ($-10$) and also disqualifies the team from the \textbf{Clean Avoid bonus} ($+15$). A single false contact represents a net swing of $-25$ points compared to a correct avoid.
 
@@ -433,11 +410,11 @@ If the robot physically \textit{touches} an avoid object, that is a \textbf{fals
 
 \item \textbf{Object placement.} The referee places objects at the specified coordinates using the selected rotation template. Both halves use the same template (mirrored). Teams may not move or interfere with objects.
 
-\item \textbf{Class rotation.} Object positions are physically fixed. Between heats, the referee changes the rotation template, which determines which class is assigned to each position. All teams in the same heat face the same assignment.
+\item \textbf{Class rotation.} Object positions are physically fixed. Between rounds, the referee changes the rotation template, which determines which class is assigned to each position. All teams in the same round face the same assignment.
 
 \item \textbf{No rescue.} There is \textbf{no rescue procedure}. If the robot becomes stuck, tips over, or is otherwise unable to continue, the run continues until the 120-second timer expires. No team member may enter the field or touch the robot for any reason during the run.
 
-\item \textbf{Partition rules.} The partition is a physical barrier separating the two halves. Colliding with the partition or perimeter walls is \textbf{not a penalty}. Each robot must remain in its designated half. If a robot navigates through a gap into the other half, this is not a penalty but wastes time; the referee may note interference if it affects the other team.
+\item \textbf{Partition rules.} The partition is a physical barrier separating the two halves. Colliding with the partition or perimeter walls is \textbf{not a penalty}. Each robot must remain in its designated half. If a robot navigates through a gap into the other half, the round will be terminated and the robot will be taken out of the field so the other team is not interrupted. 
 
 \item \textbf{Sportsmanship.} Teams must conduct themselves respectfully. Deliberate interference with the opposing team's robot, objects, or field half is grounds for disqualification.
 
@@ -623,7 +600,7 @@ If you cannot present a valid receipt, or the hash does not match:
 \end{itemize}
 
 \begin{framed}
-\textbf{Do not lose your receipt.} Keep a digital copy. Do not modify the ONNX file after export---any change will invalidate the hash.
+\textbf{Do not lose your receipt.} Keep a digital copy. Do not modify the ONNX file after export: any change will invalidate the hash.
 \end{framed}
 
 \pagebreak
@@ -640,12 +617,12 @@ The challenge follows a four-stage pipeline:
     Each team takes photos of the 3 object classes for training. A minimum of 200 photos per object is recommended, from as many angles as possible.
 
     \item \textbf{Model training}\\
-    A GUI application (\texttt{gui\_train\_model.py}) lets you:
+    A GUI application lets you:
     \begin{itemize}
         \item Select and merge datasets for 3 object classes.
         \item Choose a model variant (\texttt{nano}, \texttt{small}, \texttt{medium}, \texttt{large}, \texttt{xlarge}).
         \item Train the model and view precision/recall and loss charts.
-        \item Export the trained model to ONNX format (FP16), which generates the cryptographic receipt.
+        \item Export the trained model to ONNX format, which generates the cryptographic receipt.
     \end{itemize}
 
     \item \textbf{Inference on AIxBoard}\\
@@ -665,9 +642,6 @@ Take images of all 3 classes (Rocket, Tire, Tin Can). Vary the angle, distance, 
 
 \subsection*{Step 2: Launch the training GUI}
 
-\begin{verbatim}
-python gui_train_model.py
-\end{verbatim}
 
 \begin{enumerate}
     \item \textbf{Select datasets.} Browse to each class's dataset folder. The GUI merges them and remaps class IDs automatically.
@@ -810,7 +784,7 @@ Since teams may modify \texttt{main.py} and \texttt{run\_model.py}, consider:
     \item \textbf{What happens if we lose our cryptographic receipt?} \\
     Your mAP Bonus becomes 0 and you are assigned the Large tier multiplier ($\times$0.95). You can still compete but lose significant scoring advantages.
 
-    \item \textbf{Do both teams in a heat face the same field?} \\
+    \item \textbf{Do both teams in a round face the same field?} \\
     Yes. Both teams use the same rotation template. The layout is mirrored across the partition so each half is identical.
 \end{enumerate}
 
@@ -829,7 +803,7 @@ This section provides step-by-step instructions for referees running the competi
 \toprule
 \textbf{Term} & \textbf{Definition} \\
 \midrule
-Heat & A round in which multiple teams compete under the same field configuration \\
+Round & A run in which two teams compete simultaneously under the same field configuration \\
 Rotation template & The mapping of object classes to positions (A, B, or C) \\
 Mirrored layout & Both halves use the same triangle arrangement, reflected across the partition \\
 Engagement & One robot-to-object interaction (approach + action) \\
@@ -860,7 +834,7 @@ Approach & Robot visibly drives toward an object and reaches $\leq$20 cm \\
 \begin{enumerate}
     \item Verify field dimensions (254 $\times$ 142.24 cm).
     \item Install partition at Y = 71.12, X = 63.5 to 190.5 cm.
-    \item Select rotation template for the heat (A, B, or C).
+    \item Select rotation template for the round (A, B, or C).
     \item Place objects in both halves using the coordinates below:
 \end{enumerate}
 
@@ -902,7 +876,7 @@ Repeat for both teams.
 
 \begin{enumerate}
     \item Verify receipt verification is complete for both teams.
-    \item Fill scorecard headers (team name, date, heat \#, half assignment).
+    \item Fill scorecard headers (team name, date, round \#, half assignment).
     \item Assign halves: Team A $\rightarrow$ Bottom, Team B $\rightarrow$ Top.
     \item Each team places their robot at the designated starting position and selects heading.
     \item Verify both robots are at correct positions.
@@ -966,12 +940,12 @@ Before scoring \textbf{any} engagement, verify that the robot \textbf{visibly dr
     \item Reset field: return all objects to their positions for the next run.
 \end{enumerate}
 
-\subsection*{Between heats}
+\subsection*{Between rounds}
 
 \begin{enumerate}
     \item Select a new rotation template (A, B, or C).
     \item Swap object classes between positions (positions are fixed; classes change).
-    \item Verify all positions are correct before the next heat.
+    \item Verify all positions are correct before the next round.
 \end{enumerate}
 
 \pagebreak
@@ -1048,9 +1022,9 @@ Robot crosses into other team's half & Not a penalty; wastes the team's time. If
 {\small
 \begin{tabular}{|p{2.2cm}|p{4.8cm}|p{2.2cm}|p{2.5cm}|p{1.5cm}|p{3cm}|}
 \hline
-\textbf{Team Name} & \rule{0pt}{14pt} & \textbf{Date} & & \textbf{Heat \#} & \\
+\textbf{Team Name} & \rule{0pt}{14pt} & \textbf{Date} & & \textbf{Round \#} & \\
 \hline
-\textbf{Layout} & P\_3 (Mirrored) & \textbf{Template} & A / B / C & \textbf{Round \#} & \\
+\textbf{Layout} & P\_3 (Mirrored) & \textbf{Template} & A / B / C & & \\
 \hline
 \textbf{Half} & $\square$ Bottom (A) \quad $\square$ Top (B) & & & & \\
 \hline
