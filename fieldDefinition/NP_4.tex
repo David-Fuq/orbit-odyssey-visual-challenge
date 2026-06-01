@@ -144,7 +144,40 @@ Partition & \textbf{Removed} \\
 
 The coordinate system places the origin $(0, 0)$ at the bottom-left corner of the field. The X-axis runs left to right (0 to 254 cm) and the Y-axis runs bottom to top (0 to 142.24 cm).
 
-//TODO (David): Add an image with the field. DON'T DO THIS, I'll do it myself. 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+  \begin{scope}[scale=0.055]
+    \draw[thick] (0,0) rectangle (254, 142.24);
+    \draw[dashed, blue!60] (0,0) rectangle (30.48, 30.48);
+    \draw[dashed, blue!60] (254-30.48,0) rectangle (254, 30.48);
+    \draw[dashed, blue!60] (0,142.24-30.48) rectangle (30.48, 142.24);
+    \draw[dashed, blue!60] (254-30.48,142.24-30.48) rectangle (254, 142.24);
+    \filldraw[red!70!black] (127.00, 121.92) circle (6);
+    \filldraw[red!70!black] (83.82, 45.72) circle (6);
+    \filldraw[red!70!black] (170.18, 45.72) circle (6);
+    \draw[dashed, gray!50] (127.00,121.92) -- (83.82,45.72) -- (170.18,45.72) -- cycle;
+    % Robot starting position
+    \filldraw[green!60!black] (127.00, 71.12) circle (5);
+    \draw[<->, >=Stealth] (0,-12) -- (254,-12);
+    \draw[<->, >=Stealth] (-12,0) -- (-12,142.24);
+  \end{scope}
+  \node[font=\footnotesize\bfseries, anchor=south] at (6.99,7.04) {\textsf{P1}};
+  \node[font=\footnotesize\bfseries, anchor=north] at (4.61,2.18) {\textsf{P2}};
+  \node[font=\footnotesize\bfseries, anchor=north] at (9.36,2.18) {\textsf{P3}};
+  \node[font=\footnotesize\bfseries, green!40!black, anchor=west] at (7.30,3.91) {\textsf{Robot}};
+  \node[blue!70, font=\scriptsize] at (0.84,0.84) {LRZ};
+  \node[blue!70, font=\scriptsize] at (13.13,0.84) {LRZ};
+  \node[blue!70, font=\scriptsize] at (0.84,6.98) {LRZ};
+  \node[blue!70, font=\scriptsize] at (13.13,6.98) {LRZ};
+  \node[font=\footnotesize] at (6.99,-1.10) {254 cm (100 in)};
+  \node[font=\footnotesize, rotate=90] at (-1.21,3.91) {142.24 cm (56 in)};
+  \node[font=\scriptsize, anchor=north east] at (-0.11,-0.11) {$(0,0)$};
+\end{tikzpicture}
+\caption{Layout NP\_4 --- equilateral triangle, center start (no partition).}
+\end{figure}
+
+//TODO (David): Add an image with the field. DON'T DO THIS, I'll do it myself.
 
 \section*{Robot starting zone and placement rules}
 The robot will start in the center of the field. It will be surrounded by the 4 objects, and the team will decide the initial orientation. This will be the only human-made decision of the challenge, the only part in which the team has any kind of decision-making abilities.

@@ -1,0 +1,187 @@
+\documentclass[a4]{article}
+
+% PAQUETES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage{framed} % Para crear cuadros alrededor del texto
+\usepackage{makecell}
+\usepackage[english]{babel}
+%
+\usepackage[fixlanguage]{babelbib}
+    \bibliographystyle{IEEEtran}
+
+\usepackage{url}
+
+%!TEX encoding = UTF-8 Unicode
+% !TEX spellcheck = es
+
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.5 in}
+
+\usepackage{multirow, array} % para las tablas
+\usepackage{float} % para usar [H]
+\usepackage{charter}
+
+\usepackage[breaklinks=true]{hyperref}
+
+%
+% ADD PACKAGES here:
+%
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,longtable,siunitx, float, graphicx, dcolumn, bm, fancyhdr, authblk, subcaption, caption, hyperref, multicol, setspace}
+
+\usepackage{bbding}
+\usepackage{amssymb}
+\usepackage[rightcaption]{sidecap}
+%\usepackage{textcomp}
+
+\usepackage[hmarginratio=1:1, top=32mm, columnsep=20pt, headsep=\dimexpr20mm, margin=0.7in, top=1in ]{geometry}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage{algorithm}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage[noend]{algpseudocode}
+\usepackage{xcolor}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% ----------- global styles -----------
+\tikzset{
+  font=\scriptsize,                      % tiny text everywhere
+  every node/.style       = {transform shape},   % respect scale
+  startstop/.style        = {ellipse, draw, fill=blue!10,
+                             inner sep=1pt, minimum width=13mm},
+  process/.style          = {rectangle, draw, fill=orange!15,
+                             text width=26mm, inner sep=2pt, align=center},
+  decision/.style         = {diamond, draw, fill=green!15, aspect=2.3,
+                             text width=20mm, inner sep=1pt, align=center},
+  arrow/.style            = {->, >=Stealth, shorten >=1pt, shorten <=1pt}
+}
+
+\newcommand{\TODO}{\textbf{\textcolor{red}{TODO}}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\lhead{\includegraphics[scale=0.4]{CETC.png}}
+\rhead{\includegraphics[scale=0.025]{Cornell-University-Logo.png}}
+
+\newtheorem{theo}{Theorem}
+\newenvironment{theorem}
+  {\begin{mdframed}\begin{theo}}
+  {\end{theo}\end{mdframed}}
+  
+\newtheorem{prop}{Proposición}
+\newenvironment{proposition}
+  {\begin{mdframed}\begin{prop}}
+  {\end{prop}\end{mdframed}}
+
+\newtheorem{lem}{Lema}
+\newenvironment{lema}
+  {\begin{mdframed}\begin{lem}}
+  {\end{lem}\end{mdframed}}
+  
+\newtheorem{defi}{Definition}
+\newenvironment{definition}
+  {\begin{mdframed}\begin{def}}
+  {\end{def}\end{mdframed}}
+  
+\newtheorem{proof}{Proof}
+\newtheorem{remark}{Remark}
+
+\usepackage[numbers]{natbib}
+\renewcommand{\thesection}{\Roman{section}}
+%\setlength{\parskip}{\baselineskip}%
+
+\begin{document}
+
+\thispagestyle{fancy}
+
+\begin{center}
+    \textbf{\large Orbit Odyssey - Computer Vision} \\
+    {Quotation for phase 1}
+    
+    \vspace{0.7em}
+
+    David Alejandro Fuquen \\
+
+    {\small \today}
+
+\end{center}
+
+\section*{Quotation for Phase 1 of the Orbit Odyssey - Computer Vision Autonomous Challenge}
+
+
+\subsection*{Completed Work}
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Playing Field Definition} (3.5 hrs)
+    \begin{itemize}
+        \item Field dimensions, boundaries, and markings
+        \item Robot starting zone placement rules
+        \item Object quantity, placement templates, and clearance constraints
+    \end{itemize}
+
+    \item \textbf{Scoring System and Scorecards} (3.5 hrs)
+    \begin{itemize}
+        \item Complete point system (field performance, mAP bonus, model-size multiplier)
+        \item Penalty definitions and edge-case rulings
+        \item Tiebreaker hierarchy
+        \item Printable scorecard template for referees
+        \item Integration of cryptographic receipt verification into scoring workflow (see Phase 2 section for details)
+    \end{itemize}
+
+    \item \textbf{Student Guide} (2 hrs)
+    \begin{itemize}
+        \item Step-by-step instructions for using the training GUI
+        \item Explanation of hyperparameter choices and their trade-offs
+        \item How to submit the trained model and receipt for deployment
+    \end{itemize}
+
+    \item \textbf{Moderator Guide} (2 hrs)
+    \begin{itemize}
+        \item Field setup checklist (per-match randomization)
+        \item Receipt verification procedure (decryption and validation) (see Phase 2 section for details)
+    \end{itemize}
+
+    \item \textbf{Anti-Cheating Documentation} (2 hr)
+    \begin{itemize}
+        \item How the signed receipt system works (for judges)
+        \item What constitutes a valid vs.\ tampered receipt
+        \item Disqualification criteria
+    \end{itemize}
+
+        \item \textbf{Final revision and corrections} (2 hr)
+    \begin{itemize}
+        \item Synthesis of work into the final document, shared via google drive
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Hour Breakdown}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Task} & \textbf{Hours (est.)} & \textbf{Cost} \\
+\midrule
+Playing field definition & 3.5 & \$98.00 \\
+Scoring system \& scorecards & 3.5 & \$98.00 \\
+Student guide & 2.0 & \$56.00 \\
+Moderator guide & 2.0 & \$56.00 \\
+Anti-cheating documentation & 2.0 & \$56.00 \\
+\midrule
+\textbf{Phase 1 Total} & \textbf{13.0} & \textbf{\$364.00} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+
+
+
+\end{document}

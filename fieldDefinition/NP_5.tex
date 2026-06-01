@@ -144,7 +144,44 @@ Partition & \textbf{Removed} \\
 
 The coordinate system places the origin $(0, 0)$ at the bottom-left corner of the field. The X-axis runs left to right (0 to 254 cm) and the Y-axis runs bottom to top (0 to 142.24 cm). Four corner zones of 12 $\times$ 12 in are marked at each corner and serve as robot starting areas --- no objects may be placed inside these zones.
 
-//TODO (David): Add an image with the field. DON'T DO THIS, I'll do it myself. 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+  \begin{scope}[scale=0.055]
+    \draw[thick] (0,0) rectangle (254, 142.24);
+    \draw[dashed, blue!60] (0,0) rectangle (30.48, 30.48);
+    \draw[dashed, blue!60] (254-30.48,0) rectangle (254, 30.48);
+    \draw[dashed, blue!60] (0,142.24-30.48) rectangle (30.48, 142.24);
+    \draw[dashed, blue!60] (254-30.48,142.24-30.48) rectangle (254, 142.24);
+    \filldraw[red!70!black] (63.50, 35.56) circle (6);
+    \filldraw[red!70!black] (190.50, 35.56) circle (6);
+    \filldraw[red!70!black] (127.00, 71.12) circle (6);
+    \filldraw[red!70!black] (63.50, 106.68) circle (6);
+    \filldraw[red!70!black] (190.50, 106.68) circle (6);
+    \draw[dashed, gray!50] (63.50,35.56) -- (127.00,71.12) -- (190.50,35.56);
+    \draw[dashed, gray!50] (63.50,106.68) -- (127.00,71.12) -- (190.50,106.68);
+    \draw[dashed, gray!50] (63.50,35.56) -- (63.50,106.68);
+    \draw[dashed, gray!50] (190.50,35.56) -- (190.50,106.68);
+    \draw[<->, >=Stealth] (0,-12) -- (254,-12);
+    \draw[<->, >=Stealth] (-12,0) -- (-12,142.24);
+  \end{scope}
+  \node[font=\footnotesize\bfseries, anchor=north] at (3.49,1.63) {\textsf{P1}};
+  \node[font=\footnotesize\bfseries, anchor=north] at (10.48,1.63) {\textsf{P2}};
+  \node[font=\footnotesize\bfseries, anchor=west] at (7.35,3.91) {\textsf{P3}};
+  \node[font=\footnotesize\bfseries, anchor=south] at (3.49,6.20) {\textsf{P4}};
+  \node[font=\footnotesize\bfseries, anchor=south] at (10.48,6.20) {\textsf{P5}};
+  \node[blue!70, font=\scriptsize] at (0.84,0.84) {LRZ};
+  \node[blue!70, font=\scriptsize] at (13.13,0.84) {LRZ};
+  \node[blue!70, font=\scriptsize] at (0.84,6.98) {LRZ};
+  \node[blue!70, font=\scriptsize] at (13.13,6.98) {LRZ};
+  \node[font=\footnotesize] at (6.99,-1.10) {254 cm (100 in)};
+  \node[font=\footnotesize, rotate=90] at (-1.21,3.91) {142.24 cm (56 in)};
+  \node[font=\scriptsize, anchor=north east] at (-0.11,-0.11) {$(0,0)$};
+\end{tikzpicture}
+\caption{Layout NP\_5 --- diamond pattern with center point (no partition).}
+\end{figure}
+
+//TODO (David): Add an image with the field. DON'T DO THIS, I'll do it myself.
 
 \section*{Robot starting zone and placement rules}
 The Robot will start in any of the two corners known as \textit{Low Rubble Zone} in the original orbit Odyssey. So long the robot is within the boundaries of that corner, the team may decide where the robots points to. Ideally, this will be the only human-made decision of the challenge, the only part in which the team has any kind of decision-making ablities. 

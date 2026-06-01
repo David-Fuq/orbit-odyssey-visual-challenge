@@ -164,6 +164,44 @@ Height & Same as perimeter walls (low PVC pipe --- camera sees over it) \\
 
 The coordinate system places the origin $(0, 0)$ at the bottom-left corner of the field. The X-axis runs left to right (0 to 254 cm) and the Y-axis runs bottom to top (0 to 142.24 cm). The partition does \textbf{not} block the camera's line of sight (the camera sits above pipe height). It only blocks the robot's driving path through the center 50 inches, forcing it to navigate around via the 25-inch gaps on either side.
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+  \begin{scope}[scale=0.055]
+    \draw[thick] (0,0) rectangle (254, 142.24);
+    \draw[dashed, blue!60] (0,0) rectangle (30.48, 30.48);
+    \draw[dashed, blue!60] (254-30.48,0) rectangle (254, 30.48);
+    \draw[dashed, blue!60] (0,142.24-30.48) rectangle (30.48, 142.24);
+    \draw[dashed, blue!60] (254-30.48,142.24-30.48) rectangle (254, 142.24);
+    % Partition
+    \draw[very thick, orange!80!black] (63.50, 71.12) -- (190.50, 71.12);
+    % Objects (all in bottom half)
+    \filldraw[red!70!black] (76.20, 45.72) circle (6);
+    \filldraw[red!70!black] (177.80, 45.72) circle (6);
+    \filldraw[red!70!black] (127.00, 50.80) circle (6);
+    % Triangle pattern
+    \draw[dashed, gray!50] (76.20,45.72) -- (177.80,45.72) -- (127.00,50.80) -- cycle;
+    % Robot starting position
+    \filldraw[green!60!black] (127.00, 22.86) circle (5);
+    \draw[<->, >=Stealth] (0,-12) -- (254,-12);
+    \draw[<->, >=Stealth] (-12,0) -- (-12,142.24);
+  \end{scope}
+  \node[font=\footnotesize\bfseries, anchor=south] at (4.19,2.85) {\textsf{P1}};
+  \node[font=\footnotesize\bfseries, anchor=south] at (9.78,2.85) {\textsf{P2}};
+  \node[font=\footnotesize\bfseries, anchor=south] at (6.99,3.13) {\textsf{P3}};
+  \node[font=\footnotesize\bfseries, green!40!black, anchor=north] at (6.99,0.93) {\textsf{Robot}};
+  \node[font=\scriptsize, orange!80!black, anchor=south] at (6.99,4.10) {Partition};
+  \node[blue!70, font=\scriptsize] at (0.84,0.84) {LRZ};
+  \node[blue!70, font=\scriptsize] at (13.13,0.84) {LRZ};
+  \node[blue!70, font=\scriptsize] at (0.84,6.98) {LRZ};
+  \node[blue!70, font=\scriptsize] at (13.13,6.98) {LRZ};
+  \node[font=\footnotesize] at (6.99,-1.10) {254 cm (100 in)};
+  \node[font=\footnotesize, rotate=90] at (-1.21,3.91) {142.24 cm (56 in)};
+  \node[font=\scriptsize, anchor=north east] at (-0.11,-0.11) {$(0,0)$};
+\end{tikzpicture}
+\caption{Layout P\_3 --- triangle in bottom half, center start (partition present).}
+\end{figure}
+
 //TODO (David): Add an image with the field. DON'T DO THIS, I'll do it myself.
 
 \section*{Robot starting zone and placement rules}

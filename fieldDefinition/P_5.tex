@@ -164,7 +164,48 @@ Height & Same as perimeter walls (low PVC pipe --- camera sees over it) \\
 
 The coordinate system places the origin $(0, 0)$ at the bottom-left corner of the field. The X-axis runs left to right (0 to 254 cm) and the Y-axis runs bottom to top (0 to 142.24 cm). The partition does \textbf{not} block the camera's line of sight (the camera sits above pipe height). It only blocks the robot's driving path through the center 50 inches, forcing it to navigate around via the 25-inch gaps on either side.
 
-//TODO (David): Add an image with the field. DON'T DO THIS, I'll do it myself. 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+  \begin{scope}[scale=0.055]
+    \draw[thick] (0,0) rectangle (254, 142.24);
+    \draw[dashed, blue!60] (0,0) rectangle (30.48, 30.48);
+    \draw[dashed, blue!60] (254-30.48,0) rectangle (254, 30.48);
+    \draw[dashed, blue!60] (0,142.24-30.48) rectangle (30.48, 142.24);
+    \draw[dashed, blue!60] (254-30.48,142.24-30.48) rectangle (254, 142.24);
+    % Partition
+    \draw[very thick, orange!80!black] (63.50, 71.12) -- (190.50, 71.12);
+    % Objects
+    \filldraw[red!70!black] (45.72, 45.72) circle (6);
+    \filldraw[red!70!black] (127.00, 25.40) circle (6);
+    \filldraw[red!70!black] (208.28, 45.72) circle (6);
+    \filldraw[red!70!black] (83.82, 96.52) circle (6);
+    \filldraw[red!70!black] (170.18, 116.84) circle (6);
+    % Zigzag connections
+    \draw[dashed, gray!50] (45.72,45.72) -- (127.00,25.40) -- (208.28,45.72);
+    \draw[dashed, gray!50] (45.72,45.72) -- (83.82,96.52);
+    \draw[dashed, gray!50] (208.28,45.72) -- (170.18,116.84);
+    \draw[<->, >=Stealth] (0,-12) -- (254,-12);
+    \draw[<->, >=Stealth] (-12,0) -- (-12,142.24);
+  \end{scope}
+  \node[font=\footnotesize\bfseries, anchor=east] at (2.18,2.51) {\textsf{P1}};
+  \node[font=\footnotesize\bfseries, anchor=north] at (6.99,1.06) {\textsf{P2}};
+  \node[font=\footnotesize\bfseries, anchor=west] at (11.79,2.51) {\textsf{P3}};
+  \node[font=\footnotesize\bfseries, anchor=south] at (4.61,5.64) {\textsf{P4}};
+  \node[font=\footnotesize\bfseries, anchor=south] at (9.36,6.76) {\textsf{P5}};
+  \node[font=\scriptsize, orange!80!black, anchor=south] at (6.99,4.10) {Partition};
+  \node[blue!70, font=\scriptsize] at (0.84,0.84) {LRZ};
+  \node[blue!70, font=\scriptsize] at (13.13,0.84) {LRZ};
+  \node[blue!70, font=\scriptsize] at (0.84,6.98) {LRZ};
+  \node[blue!70, font=\scriptsize] at (13.13,6.98) {LRZ};
+  \node[font=\footnotesize] at (6.99,-1.10) {254 cm (100 in)};
+  \node[font=\footnotesize, rotate=90] at (-1.21,3.91) {142.24 cm (56 in)};
+  \node[font=\scriptsize, anchor=north east] at (-0.11,-0.11) {$(0,0)$};
+\end{tikzpicture}
+\caption{Layout P\_5 --- zigzag pattern, 3 bottom + 2 top (partition present).}
+\end{figure}
+
+//TODO (David): Add an image with the field. DON'T DO THIS, I'll do it myself.
 
 \section*{Robot starting zone and placement rules}
 The Robot will start in any of the two corners known as \textit{Low Rubble Zone} in the original orbit Odyssey. So long the robot is within the boundaries of that corner, the team may decide where the robots points to. Ideally, this will be the only human-made decision of the challenge, the only part in which the team has any kind of decision-making ablities. 

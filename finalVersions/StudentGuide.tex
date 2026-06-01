@@ -1,0 +1,564 @@
+    \documentclass[a4]{article}
+    
+    % PAQUETES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \usepackage[utf8]{inputenc}
+    \usepackage{framed} % Para crear cuadros alrededor del texto
+    \usepackage{makecell}
+    \usepackage[english]{babel}
+    %
+    \usepackage{comment}
+    \usepackage[fixlanguage]{babelbib}
+        \bibliographystyle{IEEEtran}
+    
+    \usepackage{url}
+    
+    %!TEX encoding = UTF-8 Unicode
+    % !TEX spellcheck = es
+    
+    \setlength{\textwidth}{6.5 in}
+    \setlength{\textheight}{8.5 in}
+    \setlength{\headsep}{0.5 in}
+    
+    \usepackage{multirow, array} % para las tablas
+    \usepackage{float} % para usar [H]
+    \usepackage{charter}
+    
+    \usepackage[breaklinks=true]{hyperref}
+    
+    %
+    % ADD PACKAGES here:
+    %
+    
+    \usepackage[utf8]{inputenc}
+    \usepackage{amsmath,longtable,siunitx, float, graphicx, dcolumn, bm, fancyhdr, authblk, subcaption, caption, hyperref, multicol, setspace}
+    
+    \usepackage{bbding}
+    \usepackage{amssymb}
+    \usepackage[rightcaption]{sidecap}
+    %\usepackage{textcomp}
+    
+    \usepackage[hmarginratio=1:1, top=32mm, columnsep=20pt, headsep=\dimexpr20mm, margin=0.7in, top=1in ]{geometry}
+    
+    \usepackage{booktabs}
+    \usepackage{multirow}
+    
+    \usepackage{algorithm}
+    \usepackage{enumitem}
+    \usepackage{tabularx}
+    \usepackage[noend]{algpseudocode}
+    \usepackage{xcolor}
+    
+    \usepackage{tikz}
+    \usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+    
+    % ----------- global styles -----------
+    \tikzset{
+      font=\scriptsize,                      % tiny text everywhere
+      every node/.style       = {transform shape},   % respect scale
+      startstop/.style        = {ellipse, draw, fill=blue!10,
+                                 inner sep=1pt, minimum width=13mm},
+      process/.style          = {rectangle, draw, fill=orange!15,
+                                 text width=26mm, inner sep=2pt, align=center},
+      decision/.style         = {diamond, draw, fill=green!15, aspect=2.3,
+                                 text width=20mm, inner sep=1pt, align=center},
+      arrow/.style            = {->, >=Stealth, shorten >=1pt, shorten <=1pt}
+    }
+    
+    \newcommand{\TODO}{\textbf{\textcolor{red}{TODO}}}
+    
+    \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+    \renewcommand{\algorithmicensure}{\textbf{Output:}}
+    
+    \lhead{\includegraphics[scale=0.4]{CETC.png}}
+    \rhead{\includegraphics[scale=0.025]{Cornell-University-Logo.png}}
+    
+    \newtheorem{theo}{Theorem}
+    \newenvironment{theorem}
+      {\begin{mdframed}\begin{theo}}
+      {\end{theo}\end{mdframed}}
+      
+    \newtheorem{prop}{Proposición}
+    \newenvironment{proposition}
+      {\begin{mdframed}\begin{prop}}
+      {\end{prop}\end{mdframed}}
+    
+    \newtheorem{lem}{Lema}
+    \newenvironment{lema}
+      {\begin{mdframed}\begin{lem}}
+      {\end{lem}\end{mdframed}}
+      
+    \newtheorem{defi}{Definition}
+    \newenvironment{definition}
+      {\begin{mdframed}\begin{def}}
+      {\end{def}\end{mdframed}}
+      
+    \newtheorem{proof}{Proof}
+    \newtheorem{remark}{Remark}
+    
+    \usepackage[numbers]{natbib}
+    \renewcommand{\thesection}{\Roman{section}}
+    %\setlength{\parskip}{\baselineskip}%
+    
+    \begin{document}
+    
+    \thispagestyle{fancy}
+    
+    \begin{center}
+        \textbf{\large Orbit Odyssey - Computer Vision} \\
+        {Student Guide}
+        
+        \vspace{0.7em}
+    
+        David Alejandro Fuquen \\
+    
+        {\small \today}
+    
+    \end{center}
+    
+\section*{Student Guide}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Field_image.png}
+    \label{fig:placeholder}
+\end{figure}
+
+\subsection*{Summary}
+
+Welcome to the Orbit Odyssey Computer Vision Challenge. In this competition, your team will train an object detection model to recognize three types of objects, deploy it on an Intel AIxBoard, and let an XRP robot act \textbf{autonomously} based on what it sees through its camera. You will not control the robot during the challenge, your model is the only thing you build, and it determines how well the robot performs.
+\\
+
+This guide covers everything you need to know: the mission narrative, how the challenge works, how scoring is calculated, how to train your model, what to expect on competition day, and tips for maximizing your score.
+\\
+
+Enjoy this experience!
+
+
+\pagebreak
+\section*{The Mission}
+
+The year is 2147. A cargo shuttle carrying critical supplies has crash-landed on the surface of a remote moon. The impact scattered debris across the crash site, and several \textbf{escape pods} were ejected on impact and now lie among the wreckage. Your team has been tasked with deploying an autonomous rescue rover to the site.\\
+
+Your rover must navigate the debris field:
+\begin{itemize}
+    \item \textbf{Contact each escape pod} (Rocket): approach it, make physical contact to activate its homing beacon, then reverse away.
+    \item \textbf{Avoid hazardous debris}: some wreckage is unstable. \textbf{Tire debris} must be avoided by steering \textbf{right (clockwise)}. \textbf{Tin Can debris} must be avoided by steering \textbf{left (counter-clockwise)}. Touching any debris triggers a containment breach.
+\end{itemize}
+
+The crash site is enclosed by low barrier walls. The rover deploys from a \textit{Low Rubble Zone}: a safe corner of the crash site with minimal debris.
+
+There is a catch: the rover's communication window lasts only \textbf{120 seconds}. After that, the signal is lost and the mission ends. Your team's only decision is which direction the rover faces at deployment. From that moment on, the rover must rely entirely on its camera and your trained model to identify objects and decide what to do.
+
+The better your model, the better the rover performs. Train wisely.
+
+\pagebreak
+\section*{Challenge Overview}
+
+The challenge follows a four-stage pipeline. Your team is directly responsible for \textbf{Stage 1 and Stage 2}: training the model. The other stages use scripts provided by the organizers that \textbf{cannot be modified}.
+
+\subsection*{The pipeline}
+
+\begin{enumerate}
+    \item \textbf{Data gathering}\\
+    Each team must take photos of the objects for training. A total of 200 photos per object is recommended. This is a fundamental part, as it will be the only data your model will be given. 
+
+    \item \textbf{Model training}  \\
+    A GUI application that lets you:
+    \begin{itemize}
+        \item Select and merge datasets for up to 3 object classes.
+        \item Choose a model variant (nano, small, medium, large, xlarge).
+        \item Train the model and view precision/recall and loss charts.
+        \item Export the trained model to ONNX format (FP16).
+    \end{itemize}
+    The export process automatically generates a \textbf{cryptographic receipt} containing your model's hash, variant, and per-class mAP scores.
+
+    \item \textbf{Inference on AIxBoard}  \\
+    Runs your trained model on a live webcam feed and sends detection results to the XRP robot over a serial (UART) connection. This script is identical for all teams. No team may modify this script. 
+
+    \item \textbf{Robot behavior} \\
+    The XRP robot receives detections and executes a state machine: search for objects, center on them, then contact or avoid based on the detected class. This script runs on MicroPython and is identical for all teams. No team may modify this script. 
+\end{enumerate}
+
+\begin{framed}
+\textbf{Key takeaway:} The only difference between teams is the \textbf{dataset and the trained model}. A model that accurately detects and classifies objects will produce a rover that contacts the right objects and avoids the right debris. A model that confuses classes will cause the rover to turn the wrong way or touch hazards.
+\end{framed}
+
+\pagebreak
+\section*{The Objects}
+
+There are three object classes. Each is a 3D-printed object with an approximate radius of 6 cm.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{llll}
+\toprule
+\textbf{Object} & \textbf{Behavior} & \textbf{Correct Action} & \textbf{Points} \\
+\midrule
+\textbf{Rocket} & Contact & Approach, touch, reverse + 180\textdegree{} spin & $+20$ \\
+\textbf{Rocket} & Contact (no touch) & Approach, reverse + 180\textdegree{} spin (no touch) & $+15$ \\
+\textbf{Tire} & Avoid & Approach, turn \textbf{RIGHT (clockwise)} & $+15$ \\
+\textbf{Tin Can} & Avoid & Approach, turn \textbf{LEFT (counter-clockwise)} & $+15$ \\
+\bottomrule
+\end{tabular}
+\caption{Object classes and correct robot actions.}
+\end{table}
+
+\subsection*{How the robot decides}
+
+The robot code (\texttt{main.py}) maps each detected class to a fixed behavior:
+\begin{itemize}
+    \item Class detected as \textbf{Rocket} $\rightarrow$ drive toward it, make contact, reverse, spin 180\textdegree.
+    \item Class detected as \textbf{Tire} $\rightarrow$ approach to $\sim$10 cm, pause, turn \textbf{right (clockwise)}, drive away.
+    \item Class detected as \textbf{Tin Can} $\rightarrow$ approach to $\sim$10 cm, pause, turn \textbf{left (counter-clockwise)}, drive away.
+\end{itemize}
+
+If your model \textit{misclassifies} an object --- for example, labels a Tire as a Tin Can --- the robot will turn the wrong direction. This still earns partial credit ($+5$) but costs you the full $+15$. If the robot physically \textit{touches} an avoid object, that is a false contact ($-10$) and also disqualifies you from the Clean Avoid bonus ($+15$).
+
+\pagebreak
+\section*{How Scoring Works}
+
+Your total score is calculated using this formula:
+
+\begin{equation*}
+\boxed{\text{Total} = (\text{Field Performance} \times \text{Multiplier}) + \text{mAP Bonus} + \text{Performance Bonus} - \text{Penalties}}
+\end{equation*}
+
+\subsection*{Field Performance (A)}
+
+The sum of all points earned during the 120-second run. Objects may be engaged \textbf{multiple times} --- each engagement is scored separately.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Action} & \textbf{Points} \\
+\midrule
+Correct Rocket contact (touch + reverse + 180\textdegree) & $+20$ \\
+Correct Rocket approach (no touch + reverse + 180\textdegree) & $+15$ \\
+Correct Tire avoid (turn right / clockwise) & $+15$ \\
+Correct Tin Can avoid (turn left / counter-clockwise) & $+15$ \\
+Wrong-direction avoid (detected but turned wrong way) & $+5$ \\
+False contact (touched an avoid object) & $-10$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Model-Size Multiplier (B)}
+
+Smaller models get a scoring bonus. The multiplier is applied to your Field Performance.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{llc}
+\toprule
+\textbf{Tier} & \textbf{Model Variant} & \textbf{Multiplier} \\
+\midrule
+Small & \texttt{nano} or \texttt{small} & $\times 1.05$ \\
+Medium & \texttt{medium} & $\times 1.00$ \\
+Large & \texttt{large} or \texttt{xlarge} & $\times 0.95$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{mAP Bonus (C) --- max $+15$}
+
+Your model's average mAP\textsubscript{50} across the three classes, multiplied by 15. This is computed \textit{before} the run from your cryptographic receipt.
+
+\begin{equation*}
+\text{mAP Bonus} = \text{avg}(\text{Rocket}_{\text{mAP}},\;\text{Tire}_{\text{mAP}},\;\text{Can}_{\text{mAP}}) \times 15
+\end{equation*}
+
+\textit{Example:} If your per-class mAP values are 0.92, 0.87, and 0.81, then avg = 0.867, and mAP Bonus = $0.867 \times 15 = 13.0$.
+
+\subsection*{Performance Bonus (D) --- max $+30$}
+
+Awarded at the end of the run. These are \textbf{not} multiplied by the model-size multiplier.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Bonus} & \textbf{Points} \\
+\midrule
+Perfect Contact --- all approached Rockets were physically touched & $+15$ \\
+Clean Avoid --- no avoid object (Tire or Tin Can) was touched & $+15$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Penalties (E)}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Penalty} & \textbf{Points} \\
+\midrule
+Rescue (first per run) & $0$ (free) \\
+Rescue (each subsequent) & $-15$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Worked example}
+
+Your team uses the \texttt{nano} model (Small tier, $\times$1.05). Average mAP = 0.85. During the run, the robot: contacts Rocket ($+20$), correctly avoids two Tires ($+15 \times 2$), correctly avoids one Tin Can ($+15$), turns the wrong direction on a second Tin Can ($+5$). No avoid objects were touched. One rescue was needed.
+
+\begin{align*}
+\text{Field Performance} &= 20 + 15 + 15 + 15 + 5 = 70 \\
+\text{Multiplier} &= 1.05 \\
+\text{mAP Bonus} &= 0.85 \times 15 = 12.75 \\
+\text{Performance Bonus} &= 15_{\text{(Perfect Contact)}} + 15_{\text{(Clean Avoid)}} = 30 \\
+\text{Penalties} &= 0 \quad \text{(first rescue is free)} \\
+\text{Total} &= (70 \times 1.05) + 12.75 + 30 - 0 = \mathbf{116.25}
+\end{align*}
+
+For more precise details and explanations, see the \textit{Games Rules and Points System} document
+
+\pagebreak
+\section*{Training Your Model}
+
+\subsection*{Step 1: Prepare datasets}
+
+Take images of all 3 classes (Rocket, Tire, Tin Can). Be sure to take as many as you need, in as many angles as you seem necessary.
+
+\subsection*{Step 2: Launch the training GUI}
+
+\begin{verbatim}
+python gui_train_model.py
+\end{verbatim}
+
+The GUI will open and guide you through the following steps:
+
+\begin{enumerate}
+    \item \textbf{Select datasets.} Browse to each class's dataset folder. The GUI merges them and remaps class IDs automatically.
+    \item \textbf{Choose a model variant.} Select one of: \texttt{nano}, \texttt{small}, \texttt{medium}, \texttt{large}, or \texttt{xlarge}. See the strategy section for tradeoffs.
+    \item \textbf{Set training parameters.} The GUI provides default values. You may adjust the number of epochs and batch size.
+    \item \textbf{Start training.} Training runs in the background. You can monitor precision/recall and loss charts in real time.
+    \item \textbf{Export to ONNX.} Once training completes, export the model. This generates:
+    \begin{itemize}
+        \item The ONNX model file (FP16) --- this is what runs on the AIxBoard.
+        \item The \textbf{cryptographic receipt} --- your proof of model integrity and metrics.
+    \end{itemize}
+\end{enumerate}
+
+For a step-by-step explanation, see the following tutorial in youtube \href{http}{YouTube tutorial will be here once we define everything related to the GUI}
+
+\subsection*{Step 3: Evaluate your model}
+
+After training, review the metrics displayed by the GUI:
+\begin{itemize}
+    \item \textbf{Per-class mAP\textsubscript{50}} --- how well your model detects each class. Higher is better. These values directly determine your mAP Bonus.
+    \item \textbf{Precision and Recall} --- precision measures false positives (detecting objects that aren't there), recall measures false negatives (missing objects that are there).
+    \item \textbf{Loss curves} --- should decrease over training. If they plateau early, you may benefit from more epochs or more data.
+\end{itemize}
+
+\begin{framed}
+\textbf{Tip:} You can train multiple models with different variants and compare their mAP scores. The only model that really matters is the one you use during the competition. Trial and error is a fundamental part of learning!
+\end{framed}
+
+\pagebreak
+\section*{The Cryptographic Receipt}
+
+When you export your model to ONNX, the training pipeline automatically generates a cryptographic receipt. This receipt is your team's proof of model integrity.
+
+\subsection*{What it contains}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Field} & \textbf{Description} \\
+\midrule
+Model file hash & SHA-256 hash of the exported ONNX file \\
+Model variant & Architecture used (e.g., \texttt{nano}, \texttt{small}, \texttt{large}) \\
+Per-class mAP\textsubscript{50} & mAP value for each of the 3 classes \\
+Export timestamp & Date and time the model was exported \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Why it matters}
+
+Before your run, the referee will:
+\begin{enumerate}
+    \item Compute the SHA-256 hash of the ONNX file on your AIxBoard.
+    \item Compare it to the hash on your receipt --- they must match exactly.
+    \item Read your model variant to determine the model-size multiplier.
+    \item Read your mAP values to compute the mAP Bonus.
+\end{enumerate}
+
+\subsection*{What if you don't have one?}
+
+If you cannot present a valid receipt, or the hash does not match:
+\begin{itemize}
+    \item Your mAP Bonus is set to \textbf{0}.
+    \item Your Model-Size Multiplier is set to \textbf{0.95} (Large tier assumed).
+    \item You may still compete and earn Field Performance points, but you lose all pre-run advantages.
+\end{itemize}
+
+\begin{framed}
+\textbf{Do not lose your receipt.} Keep a digital copy. Do not modify the ONNX file after export, any change will invalidate the hash.
+\end{framed}
+
+\pagebreak
+\section*{Competition Day: What to Expect}
+
+\subsection*{Before your run}
+
+\begin{enumerate}
+    \item \textbf{Check in.} Present your cryptographic receipt to the referee.
+    \item \textbf{Verification.} The referee computes the SHA-256 hash of your ONNX model on the AIxBoard, verifies it against your receipt, and records your model tier and mAP Bonus on the scorecard.
+    \item \textbf{Briefing.} The referee announces the start corner. All teams in the same heat use the same start position.
+\end{enumerate}
+
+\subsection*{Placing the robot}
+
+\begin{enumerate}
+    \item Place the robot \textbf{fully inside} the designated starting zone (Low Rubble Zone corner or center position).
+    \item Choose the robot's \textbf{initial heading}(the direction the camera faces). This is your \textbf{only decision} during the challenge.
+    \item Step back. Once placed, you may not touch the robot again.
+\end{enumerate}
+
+\subsection*{The 120-second run}
+
+\begin{enumerate}
+    \item The referee gives the start signal: ``Ready\ldots Set\ldots Go!''
+    \item The 120-second timer starts. The robot operates autonomously.
+    \item You \textbf{watch}. You may not touch the robot, any object, the field, or communicate with the robot in any way.
+    \item If the robot gets stuck, you may request a \textbf{rescue} (see Rules section).
+    \item The buzzer sounds. The run is over. Any incomplete action does not count.
+\end{enumerate}
+
+\subsection*{After the run}
+
+The referee tallies the score, applies bonuses and penalties, and announces your total. You will see the completed scorecard.
+
+\pagebreak
+\section*{Rules You Must Know}
+
+These are the rules that directly affect your team. For the complete rulebook, refer to the \textit{Rules and Points System} document.
+
+\subsection*{Hands-off rule (R4)}
+From the start signal to the buzzer, \textbf{no team member may touch the robot, any object, the field surface, or the field walls}. The sole exception is the rescue procedure. Any unauthorized touch \textbf{immediately terminates} the run.
+
+\subsection*{Software integrity (R5)}
+\begin{itemize}
+    \item \texttt{main.py} (robot code) and \texttt{run\_model.py} (inference script) must be used \textbf{without modification}.
+    \item The only team-specific artifact is the trained model file.
+    \item Using a modified script or a model that doesn't match the receipt results in \textbf{disqualification} from the heat.
+\end{itemize}
+
+\subsection*{Autonomy requirement (R6)}
+The robot must operate \textbf{fully autonomously}. The following are prohibited:
+\begin{itemize}
+    \item Remote control of any kind.
+    \item External signals (verbal commands, gestures, lasers, lights).
+    \item Offboard computation (no cloud calls).
+    \item Pre-programmed waypoints or hardcoded coordinates.
+\end{itemize}
+
+\subsection*{Hardware modifications (R7)}
+You may adjust the \textbf{camera height and tilt angle} only. No other hardware modifications are permitted --- no added sensors, bumpers, changed wheels, or chassis alterations.
+
+\subsection*{Rescue procedure (R10)}
+If the robot is stuck, tipped over, or unable to continue:
+\begin{enumerate}
+    \item \textbf{Raise your hand} and wait for the referee to acknowledge.
+    \item Only after acknowledgment: enter the field, pick up the robot, and place it in \textbf{any corner} (Low Rubble Zone).
+    \item Select a new heading. Exit the field immediately.
+    \item The timer \textbf{does not pause}. The first rescue is free; each subsequent rescue costs \textbf{$-15$ points}.
+    \item \textbf{Do not touch any objects} during the rescue.
+    \item \textbf{No rescues in the last 15 seconds.} Attempting one will immediately end the run with a $-15$ penalty.
+    \item If you enter the field \textbf{without raising your hand first}, the run is immediately terminated.
+\end{enumerate}
+
+\pagebreak
+\section*{Strategy Tips}
+
+\subsection*{Model size: the core tradeoff}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lp{10cm}}
+\toprule
+\textbf{Choice} & \textbf{Tradeoff} \\
+\midrule
+\texttt{nano} / \texttt{small} & Faster inference, $\times$1.05 multiplier bonus. May have lower accuracy if your dataset is small or complex. Best if you can achieve high mAP with a small model. \\
+\addlinespace
+\texttt{medium} & Balanced. No multiplier bonus or penalty ($\times$1.00). A safe default. \\
+\addlinespace
+\texttt{large} / \texttt{xlarge} & Highest potential accuracy, but $\times$0.95 multiplier penalty. Only worth it if the accuracy gain significantly outweighs the 5\% penalty. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{The math:} A \texttt{nano} model with 70 Field Performance points scores $70 \times 1.05 = 73.5$. A \texttt{large} model would need $73.5 / 0.95 = 77.4$ Field Performance points to match that --- an extra 7.4 points of raw performance just to break even.
+
+\subsection*{mAP matters twice}
+
+Your model's mAP affects your score in two ways:
+\begin{enumerate}
+    \item \textbf{Directly:} the mAP Bonus adds up to $+15$ points.
+    \item \textbf{Indirectly:} a model with higher mAP will classify objects more accurately during the run, leading to more correct actions (full $+15$ or $+20$ instead of $+5$ for wrong-direction avoids or $-10$ for false contacts).
+\end{enumerate}
+
+\subsection*{Heading selection}
+
+Your only decision during the challenge is which direction the camera faces at deployment. Consider:
+\begin{itemize}
+    \item Point the camera toward the \textbf{nearest cluster of objects} so the robot finds targets quickly.
+    \item Avoid pointing directly at a wall --- the robot may waste time before finding any objects.
+    \item Think about which objects are closest to your start corner and what class they are. If the nearest object is a Rocket, pointing toward it lets the robot score $+20$ quickly.
+\end{itemize}
+
+\subsection*{The Clean Avoid bonus}
+
+The $+15$ Clean Avoid bonus is lost if the robot touches \textit{any} avoid object even once. A model that confidently distinguishes Tires and Tin Cans --- and keeps a safe distance --- protects this bonus. A single false contact costs you $-10$ \textit{and} the $+15$ bonus, a net swing of $-25$ points.
+
+\subsection*{When to rescue}
+
+Rescuing costs time (the timer never pauses) and points (after the first). Consider:
+\begin{itemize}
+    \item If the robot is stuck early in the run, rescue quickly --- you have time to recover.
+    \item If the robot is stuck late and has already scored well, it may be better to let the clock run out.
+    \item Remember: no rescues in the \textbf{last 15 seconds}. Attempting one ends the run immediately.
+\end{itemize}
+
+\pagebreak
+\section*{Frequently Asked Questions}
+
+\begin{enumerate}[label=\textbf{Q\arabic*:}, leftmargin=2.5em]
+    \item \textbf{Can we modify \texttt{main.py} or \texttt{run\_model.py}?} \\
+    No. These scripts must be used exactly as provided. Any modification results in disqualification.
+
+    \item \textbf{Can we use a model not trained with \texttt{gui\_train\_model.py}?} \\
+    No. The model must be produced through the provided training pipeline, which also generates the cryptographic receipt.
+
+    \item \textbf{Can the robot score the same object more than once?} \\
+    Yes. There is no cap on the number of times a single object can be engaged. Each engagement is scored separately.
+
+    \item \textbf{What if the robot turns the wrong direction on an avoid object?} \\
+    You still get $+5$ (partial credit for detecting the object). But you lose the $+10$ difference compared to a correct avoid.
+
+    \item \textbf{What if the robot bumps into a wall?} \\
+    Not a penalty. Wall collisions are expected behavior.
+
+    \item \textbf{What if the serial connection drops mid-run?} \\
+    Not a penalty. The game restarts.
+
+    \item \textbf{Can we adjust the camera between runs?} \\
+    Yes. Camera height and tilt angle may be adjusted between runs (not during).
+
+    \item \textbf{What happens if we lose our cryptographic receipt?} \\
+    Your mAP Bonus becomes 0 and you are assigned the Large tier multiplier ($\times$0.95). You can still compete but lose significant scoring advantages.
+
+    \item \textbf{Do all teams in a heat face the same field?} \\
+    Yes. The layout, object positions, class assignments (template), and start corner are identical for all teams in the same heat.
+
+    \item \textbf{What if there's a tie?} \\
+    Tiebreakers are applied in order: (1) fewer penalty events, (2) higher average mAP, (3) smaller model tier. If still tied, teams are declared co-champions.
+\end{enumerate}
+
+\end{document}
+    

@@ -1,0 +1,158 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[margin=1.5cm, top=1.2cm, bottom=1.2cm]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.35}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Orbit Odyssey --- Referee Scorecard}} \\[2pt]
+{\small Computer Vision Challenge}
+\end{center}
+
+\vspace{0.4em}
+
+% ===== HEADER =====
+{\small
+\begin{tabular}{|p{2.2cm}|p{4.8cm}|p{2.2cm}|p{2.5cm}|p{1.5cm}|p{3cm}|}
+\hline
+\textbf{Team Name} & \rule{0pt}{14pt} & \textbf{Date} & & \textbf{Heat \#} & \\
+\hline
+\textbf{Layout} & & \textbf{Template} & & \textbf{Round \#} & \\
+\hline
+\textbf{Start Corner} & & & & & \\
+\hline
+\end{tabular}
+}
+
+\vspace{0.5em}
+
+% ===== PRE-RUN (from cryptographic receipt) =====
+{\small \textbf{Pre-Run Verification} {\scriptsize (from cryptographic receipt. Fill before the run starts)}}
+
+\vspace{0.2em}
+
+{\small
+\begin{tabular}{|p{2.2cm}|p{3.5cm}|p{1cm}|p{1.2cm}|p{1cm}|p{1.2cm}|p{1.5cm}|p{1.2cm}|}
+\hline
+\textbf{Model} & \rule{0pt}{14pt} & \textbf{Tier} & \multicolumn{5}{l|}{$\square$ Small ($\times$1.05) \quad $\square$ Medium ($\times$1.00) \quad $\square$ Large ($\times$0.95)} \\
+\hline
+\textbf{mAP Rocket} & & \textbf{mAP Tire} & & \textbf{mAP Can} & & \textbf{Avg mAP} & \\
+\hline
+\multicolumn{2}{|l|}{\textbf{mAP Bonus} = Avg $\times$ 15 = \rule{1.5cm}{0.4pt}} & \multicolumn{6}{l|}{\textbf{Multiplier} = \rule{1.5cm}{0.4pt}} \\
+\hline
+\end{tabular}
+}
+
+\vspace{0.5em}
+
+% ===== FIELD PERFORMANCE =====
+{\small \textbf{Field Performance} {\scriptsize (one row per engagement. Objects may be scored more than once)}}
+
+\vspace{0.2em}
+
+{\small
+\begin{tabular}{|c|c|c|l|c|c|}
+\hline
+\textbf{\#} & \textbf{Position} & \textbf{Object Class} & \textbf{Action Observed} & \textbf{OK?} & \textbf{Pts} \\
+\hline
+1 & & & $\square$ Contact~~$\square$ Approach~~$\square$ Avoid R~~$\square$ Avoid L~~$\square$ None & $\square$Y $\square$N & \\[2pt]
+\hline
+2 & & & $\square$ Contact~~$\square$ Approach~~$\square$ Avoid R~~$\square$ Avoid L~~$\square$ None & $\square$Y $\square$N & \\[2pt]
+\hline
+3 & & & $\square$ Contact~~$\square$ Approach~~$\square$ Avoid R~~$\square$ Avoid L~~$\square$ None & $\square$Y $\square$N & \\[2pt]
+\hline
+4 & & & $\square$ Contact~~$\square$ Approach~~$\square$ Avoid R~~$\square$ Avoid L~~$\square$ None & $\square$Y $\square$N & \\[2pt]
+\hline
+5 & & & $\square$ Contact~~$\square$ Approach~~$\square$ Avoid R~~$\square$ Avoid L~~$\square$ None & $\square$Y $\square$N & \\[2pt]
+\hline
+6 & & & $\square$ Contact~~$\square$ Approach~~$\square$ Avoid R~~$\square$ Avoid L~~$\square$ None & $\square$Y $\square$N & \\[2pt]
+\hline
+7 & & & $\square$ Contact~~$\square$ Approach~~$\square$ Avoid R~~$\square$ Avoid L~~$\square$ None & $\square$Y $\square$N & \\[2pt]
+\hline
+8 & & & $\square$ Contact~~$\square$ Approach~~$\square$ Avoid R~~$\square$ Avoid L~~$\square$ None & $\square$Y $\square$N & \\[2pt]
+\hline
+9 & & & $\square$ Contact~~$\square$ Approach~~$\square$ Avoid R~~$\square$ Avoid L~~$\square$ None & $\square$Y $\square$N & \\[2pt]
+\hline
+10 & & & $\square$ Contact~~$\square$ Approach~~$\square$ Avoid R~~$\square$ Avoid L~~$\square$ None & $\square$Y $\square$N & \\[2pt]
+\hline
+\multicolumn{5}{|r|}{\textbf{Field Performance Subtotal (A)}} & \\
+\hline
+\end{tabular}
+}
+
+\vspace{0.3em}
+
+{\scriptsize
+\textbf{Scoring key:}~
+Contact (Rocket touched) = \textbf{+20}~~$\vert$~~
+Approach (Rocket not touched) = \textbf{+15}~~$\vert$~~
+Correct Avoid = \textbf{+15}~~$\vert$~~
+Wrong-direction Avoid = \textbf{+5}~~$\vert$~~
+False contact (touch avoid obj.) = \textbf{--10}
+}
+
+\vspace{0.5em}
+
+% ===== BONUSES + PENALTIES =====
+{\small
+\begin{tabular}{|p{5.5cm}|c|c||p{4.5cm}|c|c|}
+\hline
+\multicolumn{3}{|c||}{\textbf{Performance Bonus (D)}} & \multicolumn{3}{c|}{\textbf{Penalties (E)}} \\
+\hline
+Perfect Contact (all Rockets touched) & $\square$ Yes & +15 / 0 & Rescues used: \rule{1cm}{0.4pt} {\scriptsize (1st free)} & & \\
+\hline
+Clean Avoid (no avoid obj. touched) & $\square$ Yes & +15 / 0 & Rescue penalties: (\# $-$ 1) $\times$ 15 & = & \\
+\hline
+\multicolumn{2}{|r|}{\textbf{Bonus Total (D)}} & \rule{1.2cm}{0.4pt} & \multicolumn{2}{r|}{\textbf{Penalty Total (E)}} & \rule{1.2cm}{0.4pt} \\
+\hline
+\end{tabular}
+}
+
+\vspace{0.5em}
+
+% ===== FINAL CALCULATION =====
+{\small \textbf{Final Score}}
+
+\vspace{0.2em}
+
+{\small
+\begin{tabular}{|p{6cm}|r|}
+\hline
+\textbf{A} --- Field Performance Subtotal & \rule{2.5cm}{0.4pt} \\
+\hline
+\textbf{B} --- Model-Size Multiplier & $\times$ \rule{2cm}{0.4pt} \\
+\hline
+\textbf{A $\times$ B} & = \rule{2cm}{0.4pt} \\
+\hline
+\textbf{C} --- mAP Bonus & $+$ \rule{2cm}{0.4pt} \\
+\hline
+\textbf{D} --- Performance Bonus & $+$ \rule{2cm}{0.4pt} \\
+\hline
+\textbf{E} --- Penalties & $-$ \rule{2cm}{0.4pt} \\
+\hline
+\textbf{TOTAL = (A $\times$ B) + C + D $-$ E} & = \rule{2cm}{0.4pt} \\
+\hline
+\end{tabular}
+}
+
+\vspace{0.8em}
+
+\begin{tabular}{p{7cm}p{7cm}}
+\textbf{Referee:} \rule{5.5cm}{0.4pt} & \textbf{Signature:} \rule{5.5cm}{0.4pt} \\
+\end{tabular}
+
+\end{document}

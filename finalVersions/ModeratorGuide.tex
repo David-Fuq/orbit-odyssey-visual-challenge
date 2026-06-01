@@ -1,0 +1,647 @@
+    \documentclass[a4]{article}
+    
+    % PAQUETES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \usepackage[utf8]{inputenc}
+    \usepackage{framed} % Para crear cuadros alrededor del texto
+    \usepackage{makecell}
+    \usepackage[english]{babel}
+    %
+    \usepackage{comment}
+    \usepackage[fixlanguage]{babelbib}
+        \bibliographystyle{IEEEtran}
+    
+    \usepackage{url}
+    
+    %!TEX encoding = UTF-8 Unicode
+    % !TEX spellcheck = es
+    
+    \setlength{\textwidth}{6.5 in}
+    \setlength{\textheight}{8.5 in}
+    \setlength{\headsep}{0.5 in}
+    
+    \usepackage{multirow, array} % para las tablas
+    \usepackage{float} % para usar [H]
+    \usepackage{charter}
+    
+    \usepackage[breaklinks=true]{hyperref}
+    
+    %
+    % ADD PACKAGES here:
+    %
+    
+    \usepackage[utf8]{inputenc}
+    \usepackage{amsmath,longtable,siunitx, float, graphicx, dcolumn, bm, fancyhdr, authblk, subcaption, caption, hyperref, multicol, setspace}
+    
+    \usepackage{bbding}
+    \usepackage{amssymb}
+    \usepackage[rightcaption]{sidecap}
+    %\usepackage{textcomp}
+    
+    \usepackage[hmarginratio=1:1, top=32mm, columnsep=20pt, headsep=\dimexpr20mm, margin=0.7in, top=1in ]{geometry}
+    
+    \usepackage{booktabs}
+    \usepackage{multirow}
+    
+    \usepackage{algorithm}
+    \usepackage{enumitem}
+    \usepackage{tabularx}
+    \usepackage[noend]{algpseudocode}
+    \usepackage{xcolor}
+    
+    \usepackage{tikz}
+    \usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+    
+    % ----------- global styles -----------
+    \tikzset{
+      font=\scriptsize,                      % tiny text everywhere
+      every node/.style       = {transform shape},   % respect scale
+      startstop/.style        = {ellipse, draw, fill=blue!10,
+                                 inner sep=1pt, minimum width=13mm},
+      process/.style          = {rectangle, draw, fill=orange!15,
+                                 text width=26mm, inner sep=2pt, align=center},
+      decision/.style         = {diamond, draw, fill=green!15, aspect=2.3,
+                                 text width=20mm, inner sep=1pt, align=center},
+      arrow/.style            = {->, >=Stealth, shorten >=1pt, shorten <=1pt}
+    }
+    
+    \newcommand{\TODO}{\textbf{\textcolor{red}{TODO}}}
+    
+    \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+    \renewcommand{\algorithmicensure}{\textbf{Output:}}
+    
+    \lhead{\includegraphics[scale=0.4]{CETC.png}}
+    \rhead{\includegraphics[scale=0.025]{Cornell-University-Logo.png}}
+    
+    \newtheorem{theo}{Theorem}
+    \newenvironment{theorem}
+      {\begin{mdframed}\begin{theo}}
+      {\end{theo}\end{mdframed}}
+      
+    \newtheorem{prop}{Proposición}
+    \newenvironment{proposition}
+      {\begin{mdframed}\begin{prop}}
+      {\end{prop}\end{mdframed}}
+    
+    \newtheorem{lem}{Lema}
+    \newenvironment{lema}
+      {\begin{mdframed}\begin{lem}}
+      {\end{lem}\end{mdframed}}
+      
+    \newtheorem{defi}{Definition}
+    \newenvironment{definition}
+      {\begin{mdframed}\begin{def}}
+      {\end{def}\end{mdframed}}
+      
+    \newtheorem{proof}{Proof}
+    \newtheorem{remark}{Remark}
+    
+    \usepackage[numbers]{natbib}
+    \renewcommand{\thesection}{\Roman{section}}
+    %\setlength{\parskip}{\baselineskip}%
+    
+    \begin{document}
+    
+    \thispagestyle{fancy}
+    
+    \begin{center}
+        \textbf{\large Orbit Odyssey - Computer Vision} \\
+        {Moderator Guide}
+        
+        \vspace{0.7em}
+    
+        David Alejandro Fuquen \\
+    
+        {\small \today}
+    
+    \end{center}
+    
+\section*{Moderator Guide}
+
+\subsection*{Summary}
+
+This guide provides step-by-step instructions for referees running the Orbit Odyssey Computer Vision Challenge. In this challenge, student teams train a classification object detection model and deploy it on an Intel AIxBoard, which streams detections to an XRP robot over serial connection. The robot must autonomously contact or avoid 3D-printed objects (Rockets, Tires, and Tin Cans) during a 120-second game run.
+
+As a moderator, you are responsible for:
+\begin{itemize}
+    \item Setting up the field and placing objects before each heat.
+    \item Verifying each team's model against their cryptographic receipt before their run.
+    \item Observing and scoring robot actions during the run.
+    \item Enforcing all rules, including the rescue protocol.
+    \item Computing and announcing the final score after each run.
+\end{itemize}
+
+This guide is self-contained. However, for edge cases or disputes, refer to the \textit{Rules and Points System} document.
+
+\subsection*{Terminology Quick Reference}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lp{14cm}}
+\toprule
+\textbf{Term} & \textbf{Meaning} \\
+\midrule
+Heat & A round in which all teams face the same layout, template, and start position \\
+Layout & The physical arrangement \\
+Template & The assignment of object classes (Rocket/Tire/Tin Can) to positions \\
+Rotation & Changing which template is active between heats \\
+Low Rubble Zone & A 30.48 $\times$ 30.48 cm (12 $\times$ 12 in) corner zone; the robot's starting area. Within the field, they are the two corners that don't have relief. \\
+Partition & A 127 cm PVC barrier at Y = 71.12 cm, centered from X = 63.5 to X = 190.5 cm \\
+Rescue & A team member retrieving a stuck robot (Rule R10) \\
+Receipt & The cryptographic receipt generated at ONNX export time \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\pagebreak
+\section*{Pre-Event Preparation}
+
+Gather the following materials before the event begins.
+
+\subsubsection*{Equipment checklist}
+
+\begin{enumerate}[label=$\square$]
+    \item \textbf{Field:} 254 $\times$ 142.24 cm (100 $\times$ 56 in) arena with PVC pipe walls on all four sides.
+    \item \textbf{Partition:} 127 cm PVC barrier, same height as perimeter walls.
+    \item \textbf{3D-printed objects:} Rockets, Tires, and Tin Cans. Quantities depend on layout:
+    \begin{itemize}
+        \item 3-object layouts: 1 Rocket + 1 Tire + 1 Tin Can.
+        \item 5-object layouts: 1 Rocket + 2 Tires + 2 Tin Cans.
+        \item 6-object layouts: 2 Rockets + 2 Tires + 2 Tin Cans.
+    \end{itemize}
+    \item \textbf{Printed scorecards:} At least one per team per run. Use the standalone scorecard template (\texttt{scorecard.pdf}).
+    \item \textbf{Timer:} Capable of a 120-second countdown with an audible buzzer.
+    \item \textbf{Rotation template list:} Printed copy of the available templates for the chosen layout. This is previously defined per heat. 
+    \item \textbf{SHA-256 hash tool:} A laptop for verifying the ONNX file hash on the AIxBoard.
+    \item \textbf{Pens/pencils:} For filling out scorecards.
+\end{enumerate}
+
+\begin{comment}
+    
+
+\subsubsection*{Layout selection}
+
+Select the layout for the event based on field configuration:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{llcll}
+\toprule
+\textbf{Layout} & \textbf{Partition} & \textbf{Objects} & \textbf{Start} & \textbf{Pattern} \\
+\midrule
+NP\_5 & No & 5 & Corner & Diamond with center \\
+NP\_6 & No & 6 & Corner & Staggered 2$\times$3 \\
+P\_5 & Yes & 5 & Corner & Zigzag (3 bottom, 2 top) \\
+P\_6 & Yes & 6 & Corner & Zigzag (3 bottom, 3 top) \\
+NP\_4 & No & 3 & Center & Equilateral triangle \\
+P\_3 & Yes & 3 & Center (bottom half) & Triangle above robot \\
+\bottomrule
+\end{tabular}
+\caption{Available layouts.}
+\end{table}
+
+NP\_4 and P\_3 are \textbf{center-start fallback} layouts --- use them only if the robot code cannot be modified for corner starts.
+\end{comment}
+\pagebreak
+\section*{Field Setup Checklist (per-match randomization)}
+
+Perform this procedure before each heat.
+
+\begin{comment}
+    \item \textbf{Install or remove partition.}
+    \begin{itemize}
+        \item For P\_5, P\_6, P\_3: verify the partition is in place at Y = 71.12 cm, centered from X = 63.50 cm to X = 190.50 cm. Left gap: X = 0 to 63.50 cm. Right gap: X = 190.50 to 254.00 cm.
+        \item For NP\_5, NP\_6, NP\_4: remove the partition entirely.
+    \end{itemize}
+\end{comment}
+
+\begin{enumerate}
+    \item \textbf{Verify field dimensions.} Confirm the arena is 254 $\times$ 142.24 cm with PVC walls on all sides and corner zones marked at 30.48 $\times$ 30.48 cm.    
+    \item \textbf{Select rotation template.} Choose a template from the layout's rotation table. Use a \textbf{different template for each heat} so that teams cannot memorize object-class assignments. See \texttt{field\_definition.pdf}
+
+    \item \textbf{Place objects at designated positions.} Using the coordinate table for the active layout, place each object at its position. Refer to the position tables below.
+
+    \item \textbf{Select start position.}
+    \begin{itemize}
+        \item \textbf{Corner-start layouts} (NP\_5, NP\_6, P\_5, P\_6): choose one of the four corners (Low Rubble Zone). The \textbf{same corner} is used for all teams in the heat.
+        \item \textbf{Center-start layouts}: NP\_4 --- center of field at (127.00, 71.12) cm. P\_3 --- bottom half at (127.00, 22.86) cm.
+    \end{itemize}
+
+    \item \textbf{Spot-check clearances.} Verify at least 2--3 objects: center-to-wall $\geq$ 20 cm, center-to-center $\geq$ 35 cm, no object inside a corner zone. For partition layouts, also verify center-to-partition $\geq$ 20 cm.
+\end{enumerate}
+
+\subsubsection*{Object position reference tables}
+For more precise location, see \texttt{field\_definition.pdf}\\
+
+\textbf{NP\_5} --- Diamond with center (no partition, corner start):
+
+\begin{table}[H]
+\centering
+\begin{tabular}{clcc}
+\toprule
+\textbf{ID} & \textbf{Location} & \textbf{X (cm)} & \textbf{Y (cm)} \\
+\midrule
+P1 & Bottom-left quadrant & 63.50 & 35.56 \\
+P2 & Bottom-right quadrant & 190.50 & 35.56 \\
+P3 & Dead center & 127.00 & 71.12 \\
+P4 & Top-left quadrant & 63.50 & 106.68 \\
+P5 & Top-right quadrant & 190.50 & 106.68 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{NP\_6} --- Staggered 2$\times$3 (no partition, corner start):
+
+\begin{table}[H]
+\centering
+\begin{tabular}{clcc}
+\toprule
+\textbf{ID} & \textbf{Location} & \textbf{X (cm)} & \textbf{Y (cm)} \\
+\midrule
+P1 & Bottom-left & 55.88 & 40.64 \\
+P2 & Bottom-center & 127.00 & 35.56 \\
+P3 & Bottom-right & 198.12 & 40.64 \\
+P4 & Top-left & 55.88 & 101.60 \\
+P5 & Top-center & 127.00 & 106.68 \\
+P6 & Top-right & 198.12 & 101.60 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{P\_5} --- Zigzag, 3 bottom + 2 top (partition present, corner start):
+
+\begin{table}[H]
+\centering
+\begin{tabular}{clccc}
+\toprule
+\textbf{ID} & \textbf{Location} & \textbf{X (cm)} & \textbf{Y (cm)} & \textbf{Half} \\
+\midrule
+P1 & Left gap lane & 45.72 & 45.72 & Bottom \\
+P2 & Center, near bottom wall & 127.00 & 25.40 & Bottom \\
+P3 & Right gap lane & 208.28 & 45.72 & Bottom \\
+P4 & Behind partition, left & 83.82 & 96.52 & Top \\
+P5 & Near top wall, right & 170.18 & 116.84 & Top \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{P\_6} --- Zigzag, 3 bottom + 3 top (partition present, corner start):
+
+\begin{table}[H]
+\centering
+\begin{tabular}{clccc}
+\toprule
+\textbf{ID} & \textbf{Location} & \textbf{X (cm)} & \textbf{Y (cm)} & \textbf{Half} \\
+\midrule
+P1 & Left gap lane & 45.72 & 45.72 & Bottom \\
+P2 & Center, near bottom wall & 127.00 & 25.40 & Bottom \\
+P3 & Right gap lane & 208.28 & 45.72 & Bottom \\
+P4 & Left gap lane & 45.72 & 96.52 & Top \\
+P5 & Center, near top wall & 127.00 & 116.84 & Top \\
+P6 & Right gap lane & 208.28 & 96.52 & Top \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{NP\_4} --- Center start, equilateral triangle (no partition):
+
+\begin{table}[H]
+\centering
+\begin{tabular}{clcc}
+\toprule
+\textbf{ID} & \textbf{Location} & \textbf{X (cm)} & \textbf{Y (cm)} \\
+\midrule
+P1 & Top-center & 127.00 & 121.92 \\
+P2 & Lower-left & 83.82 & 45.72 \\
+P3 & Lower-right & 170.18 & 45.72 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Robot starts at center: (127.00, 71.12) cm.
+
+\textbf{P\_3} --- Center start, bottom half only (partition present):
+
+\begin{table}[H]
+\centering
+\begin{tabular}{clccc}
+\toprule
+\textbf{ID} & \textbf{Location} & \textbf{X (cm)} & \textbf{Y (cm)} & \textbf{Half} \\
+\midrule
+P1 & Upper-left & 76.20 & 45.72 & Bottom \\
+P2 & Upper-right & 177.80 & 45.72 & Bottom \\
+P3 & Above, center & 127.00 & 50.80 & Bottom \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Robot starts at: (127.00, 22.86) cm (bottom half, below objects).
+
+\pagebreak
+\section*{Verification Procedure (Cryptographic Receipt)}
+
+Perform this procedure \textbf{before each team's run}. The mAP Bonus and Model-Size Multiplier must be recorded on the scorecard \textbf{before} the timer starts.
+
+\begin{enumerate}
+    \item \textbf{Request the receipt:} Ask the team to present their cryptographic receipt. The receipt was generated automatically by the training pipeline at export time.
+
+    \item \textbf{Compute the SHA-256 hash:} On the AIxBoard, compute the SHA-256 hash of the team's ONNX model file. Compare the computed hash with the hash printed on the receipt. They must match \textbf{exactly}.
+
+    \item \textbf{Determine model tier.} Read the model variant from the receipt and assign the tier:
+    \begin{itemize}
+        \item \texttt{nano} or \texttt{small} $\rightarrow$ \textbf{Small} (Multiplier = $\times$1.05)
+        \item \texttt{medium} $\rightarrow$ \textbf{Medium} (Multiplier = $\times$1.00)
+        \item \texttt{large} or \texttt{xlarge} $\rightarrow$ \textbf{Large} (Multiplier = $\times$0.95)
+    \end{itemize}
+
+    \item \textbf{Compute mAP Bonus.} Read the three per-class mAP\textsubscript{50} values (Rocket, Tire, Tin Can) from the receipt. Compute:
+    \begin{equation*}
+    \text{mAP Bonus} = \text{avg}(\text{Rocket}_{\text{mAP}},\;\text{Tire}_{\text{mAP}},\;\text{Can}_{\text{mAP}}) \times 15
+    \end{equation*}
+
+    \item \textbf{Record on scorecard.} Fill in the Pre-Run section of the scorecard: model name, tier checkbox, per-class mAP values, average mAP, mAP Bonus, and Multiplier. These values are \textbf{fixed} and do not change based on field performance.
+
+    \item \textbf{Missing or invalid receipt.} If the team cannot present a receipt, or the hash does not match:
+    \begin{itemize}
+        \item mAP Bonus = \textbf{0}
+        \item Model-Size Multiplier = \textbf{0.95} (Large tier assumed)
+        \item The team may still compete and earn Field Performance points.
+    \end{itemize}
+\end{enumerate}
+
+\pagebreak
+\section*{Pre-Run Procedure}
+
+Perform this checklist for each team's run, \textbf{after} completing the Verification Procedure.
+
+\begin{enumerate}
+    \item \textbf{Verify receipt completed.} Confirm the Pre-Run section of the scorecard is filled in (Section IV).
+
+    \item \textbf{Fill header.} Record Team Name, Date, Heat \#, Round \#, Layout, Template, and Start Corner on the scorecard.
+
+    \item \textbf{Announce start position.} Tell the team which corner (or center position) to use. For corner-start layouts, announce the specific corner (``Red Corner'' or ``Blue Corner''). For center-start layouts, indicate the center placement coordinates.
+
+    \item \textbf{Team places robot.} The team places the robot fully inside the designated zone and selects the initial heading (the direction the camera faces). This is the team's \textbf{only decision} during the challenge.
+
+    \item \textbf{Verify placement.} Confirm the robot is \textbf{fully inside} the starting zone. No part of the robot may extend beyond the zone boundary.
+
+    \item \textbf{Verify hands off.} Confirm no team member is touching the field, robot, or any object.
+
+    \item \textbf{Start the run.} Give an audible start signal: ``Ready\ldots Set\ldots Go!'' and start the 120-second countdown timer immediately.
+\end{enumerate}
+
+\pagebreak
+\section*{During the Run --- Observation Guide}
+
+Your primary task during the 120-second run is to observe and record each object engagement on the scorecard. Use one row per engagement. Objects may be engaged \textbf{multiple times}. Write a new row each time.
+
+\subsection*{What to record per engagement}
+
+For each engagement, record:
+\begin{itemize}
+    \item \textbf{Position} --- Write the position ID (P1, P2, etc.). The same position may appear in multiple rows.
+    \item \textbf{Object Class} --- The class assigned to that position by the active template (Rocket, Tire, or Tin Can).
+    \item \textbf{Action Observed} --- Check the box matching what the robot did: Contact, Approach, Avoid R, Avoid L, or None.
+    \item \textbf{OK?} --- Was the action correct for that object class? Mark Y or N.
+    \item \textbf{Pts} --- Write the points earned for this engagement.
+\end{itemize}
+
+\subsection*{Judging each action type}
+
+\subsubsection*{Rocket --- Contact ($+20$)}
+The robot approaches the Rocket, \textbf{physically touches it} (the object visibly moves), then reverses and spins 180\textdegree.
+\begin{itemize}
+    \item Check: \textbf{Contact} + \textbf{Y}
+    \item Award: $+20$
+\end{itemize}
+
+\subsubsection*{Rocket --- Approach, no contact ($+15$)}
+The robot approaches the Rocket and gets within $\sim$20 cm, then reverses and spins 180\textdegree{} \textbf{without touching} the object.
+\begin{itemize}
+    \item Check: \textbf{Approach} + \textbf{Y}
+    \item Award: $+15$
+\end{itemize}
+
+\subsubsection*{Tire --- Correct avoid ($+15$)}
+The robot approaches the Tire to $\sim$10 cm, pauses, then turns \textbf{RIGHT (clockwise)} and drives away without touching the object.
+\begin{itemize}
+    \item Check: \textbf{Avoid R} + \textbf{Y}
+    \item Award: $+15$
+\end{itemize}
+
+\subsubsection*{Tin Can --- Correct avoid ($+15$)}
+The robot approaches the Tin Can to $\sim$10 cm, pauses, then turns \textbf{LEFT (counter-clockwise)} and drives away without touching the object.
+\begin{itemize}
+    \item Check: \textbf{Avoid L} + \textbf{Y}
+    \item Award: $+15$
+\end{itemize}
+
+\subsubsection*{Wrong-direction avoid ($+5$)}
+The robot approaches an avoid object but turns the \textbf{wrong direction} (e.g., turns left near a Tire, or right near a Tin Can). The robot detected the object but misclassified it.
+\begin{itemize}
+    \item Check the \textbf{observed direction} (Avoid R or Avoid L) + \textbf{N}
+    \item Award: $+5$
+\end{itemize}
+
+\subsubsection*{False contact ($-10$)}
+The robot \textbf{physically touches} an avoid object (Tire or Tin Can). Any contact counts, even without visible displacement.
+\begin{itemize}
+    \item Check: \textbf{Contact} + \textbf{N}
+    \item Award: $-10$
+\end{itemize}
+
+\subsection*{Key reminders during the run}
+
+\begin{itemize}
+    \item ``\textbf{Right}'' and ``\textbf{Left}'' are relative to the robot's heading. Think \textbf{clockwise} (Tire) vs.\ \textbf{counter-clockwise} (Tin Can).
+    \item Objects can be scored \textbf{multiple times}. If the robot loops back and engages the same object again, record a new row.
+    \item The timer \textbf{never stops}, not even during rescues.
+    \item An action that is still in progress when the buzzer sounds does \textbf{not count}. ``Completed'' means: for contact, the object has been touched; for avoidance, the robot has completed its turn.
+\end{itemize}
+
+\pagebreak
+\section*{Rescue Protocol}
+
+If the robot becomes stuck, tips over, or is otherwise unable to continue, the team may request a rescue. Follow this procedure exactly.
+
+\begin{enumerate}
+    \item \textbf{Team raises hand.} A team member raises their hand and waits for your acknowledgment. If the team does \textbf{not} ask for permission and rescues the robot without acknowledgment, the run is \textbf{immediately terminated}.
+
+    \item \textbf{Acknowledge.} Say ``Rescue'' out loud.
+
+    \item \textbf{Team member enters field.} Only after your acknowledgment may one team member enter the field, pick up the robot, and place it in \textbf{any of the Low Rubble Zone corners}.
+
+    \item \textbf{New heading.} The team member selects a new heading for the robot within the corner zone.
+
+    \item \textbf{Exit immediately.} The team member must leave the field immediately. The game resumes \textbf{without pausing the timer}.
+
+    \item \textbf{No touching objects.} During a rescue, the team member may \textbf{not} touch or move any object on the field.
+
+    \item \textbf{Penalty tracking.}
+    \begin{itemize}
+        \item \textbf{First rescue:} free (no point penalty).
+        \item \textbf{Each subsequent rescue:} $-15$ points.
+        \item Record the total number of rescues on the scorecard.
+    \end{itemize}
+
+    \item \textbf{Last 15 seconds rule.} Rescues are \textbf{not permitted} in the last 15 seconds of the run (from 0:15 to 0:00 on the countdown). If a team attempts a rescue in this window:
+    \begin{itemize}
+        \item The run is \textbf{immediately terminated}.
+        \item A $-15$ point penalty is applied, even if it is the first rescue.
+        \item The score is recorded up to the point of termination.
+    \end{itemize}
+\end{enumerate}
+
+\pagebreak
+\section*{Post-Run Procedure}
+
+After the 120-second timer expires (or the run is terminated early):
+
+\begin{enumerate}
+    \item \textbf{Stop the timer.} Call ``Time!'' or let the buzzer sound.
+
+    \item \textbf{Tally Field Performance.} Review the scorecard and sum all points in the Pts column to get the \textbf{Field Performance Subtotal (A)}.
+
+    \item \textbf{Check Performance Bonuses.}
+    \begin{itemize}
+        \item \textbf{Perfect Contact ($+15$):} Were \textit{all} Rockets that the robot approached physically touched? If yes, award $+15$.
+        \item \textbf{Clean Avoid ($+15$):} Was \textit{no} avoid object (Tire or Tin Can) physically touched during the entire run? If yes, award $+15$.
+    \end{itemize}
+    Performance Bonuses are \textbf{not} multiplied by the Model-Size Multiplier.
+
+    \item \textbf{Calculate final score.}
+    \begin{equation*}
+    \text{Total} = (\underbrace{A}_{\text{Field Perf.}} \times \underbrace{B}_{\text{Multiplier}}) + \underbrace{C}_{\text{mAP Bonus}} + \underbrace{D}_{\text{Perf.\ Bonus}} - \underbrace{E}_{\text{Penalties}}
+    \end{equation*}
+
+    Fill in each row of the Final Score section on the scorecard.
+
+    \item \textbf{Announce score.} Communicate the final score to the team.
+
+    \item \textbf{Sign scorecard.} Write your name and sign the scorecard as the referee.
+
+    \item \textbf{Reset field.} Return all objects to their designated positions (using the same template) for the next team. If an object was knocked off the field during the run, retrieve it and place it back.
+\end{enumerate}
+
+\section*{Between Heats}
+
+When moving from one heat to the next:
+
+\begin{enumerate}
+    \item \textbf{Select a new rotation template.} Choose a different template from the layout's rotation table. This changes which object class is assigned to which position, while positions remain physically fixed.
+
+    \item \textbf{Swap objects.} Move Rockets, Tires, and Tin Cans between positions to match the new template. Positions themselves do not change, only the object at each position changes.
+
+    \item \textbf{Optionally change start corner.} You may select a different start corner for the new heat. All teams in the same heat must use the same corner.
+
+    \item \textbf{Verify all positions.} Spot-check that objects are at the correct coordinates and that the correct class is at each position per the new template.
+\end{enumerate}
+
+\pagebreak
+\section*{Quick Reference Card}
+
+\subsection*{Scoring values}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Action} & \textbf{Points} \\
+\midrule
+Correct Rocket contact (touch + reverse + 180\textdegree) & $+20$ \\
+Correct Rocket approach (no touch + reverse + 180\textdegree) & $+15$ \\
+Correct Tire avoid (turn RIGHT / clockwise) & $+15$ \\
+Correct Tin Can avoid (turn LEFT / counter-clockwise) & $+15$ \\
+Wrong-direction avoid & $+5$ \\
+False contact (touch avoid object) & $-10$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Bonuses and penalties}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Item} & \textbf{Points} \\
+\midrule
+Perfect Contact bonus (all approached Rockets touched) & $+15$ \\
+Clean Avoid bonus (no avoid object touched) & $+15$ \\
+Rescue penalty (first is free; each additional) & $-15$ \\
+Last-15-seconds rescue attempt & run ends $+ (-15)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Model-Size Multiplier}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{llc}
+\toprule
+\textbf{Tier} & \textbf{Variant} & \textbf{Multiplier} \\
+\midrule
+Small & nano, small & $\times$1.05 \\
+Medium & medium & $\times$1.00 \\
+Large & large, xlarge & $\times$0.95 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{Formula}
+
+\begin{equation*}
+\boxed{\text{Total} = (A \times B) + C + D - E}
+\end{equation*}
+
+Where: A = Field Performance, B = Model-Size Multiplier, C = mAP Bonus (avg mAP $\times$ 15, max 15), D = Performance Bonus (max 30), E = Penalties.
+
+\pagebreak
+\section*{Edge-Case Quick Reference}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{5.5cm}p{8.5cm}}
+\toprule
+\textbf{Situation} & \textbf{Ruling} \\
+\midrule
+Robot knocks object off the field & Score the contact normally ($+$ or $-$ depending on class). Object is \textbf{not} replaced --- out of play for the rest of the run. \\
+\addlinespace
+Object moves without robot contact (vibration, wind, referee bump) & Does \textbf{not} count as robot interaction. If displacement $>$5 cm, you may pause the timer to reposition. \\
+\addlinespace
+Robot collides with partition or wall & \textbf{Not a penalty.} Wall collisions are expected. \\
+\addlinespace
+Action in progress when buzzer sounds & Counts \textbf{only if completed} before the buzzer. Contact: object touched. Avoid: robot has completed its turn. \\
+\addlinespace
+Serial connection drops mid-run & \textbf{Not a penalty.} The game restarts. \\
+\addlinespace
+Object placed in wrong position & Discovered \textbf{during} run: stop and replay with correct placement. Discovered \textbf{after}: score stands. \\
+\addlinespace
+Robot tips over & Team must request a rescue (follows rescue protocol). Counts as ``stuck.'' \\
+\addlinespace
+Robot drives over avoid object & Any physical contact = false contact ($-10$), even without visible displacement. \\
+\addlinespace
+Rocket contact without full sequence & Contact without approach-touch-reverse does \textbf{not} score. The full sequence must be observed, so that we can be sure the robot actually recognizes the object. \\
+\addlinespace
+Team enters field without raising hand & Run is \textbf{immediately terminated}. Score recorded up to that point. \\
+\addlinespace
+Robot crosses to other half (P\_3 layout) & \textbf{Not a penalty}, but wastes time --- all objects are in the bottom half. \\
+\addlinespace
+Team modifies scripts or uses wrong model & \textbf{Disqualification} from the heat. Even if the team already participated. \\
+\bottomrule
+\end{tabular}
+\caption{Edge-case rulings.}
+\end{table}
+
+\subsection*{Tiebreaker hierarchy}
+
+If two or more teams have the same Total Score, apply in order:
+\begin{enumerate}
+    \item \textbf{Fewer total penalties.} Count false contacts ($-10$ each) + rescue penalties ($-15$ each after first). Fewer events wins.
+    \item \textbf{Higher average mAP.} From the cryptographic receipt.
+    \item \textbf{Smaller model tier.} Small $>$ Medium $>$ Large.
+    \item \textbf{Co-champions.} If still tied, teams share the placement.
+\end{enumerate}
+
+\end{document}
+    
