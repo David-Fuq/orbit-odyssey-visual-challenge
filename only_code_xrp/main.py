@@ -13,6 +13,17 @@ THRESHOLD_OFFSET_X = 25  # Set a threshold for how centered the object is
 SEARCH_TURN_SPEED = 3 # Speed of robot when searching for element
 CENTER_SPEED = 2.0 # Speed of robot when centering itself (recommended to be slower to prevent overshooting)
 
+# --- Engagement tuning (all distances in cm, angles in degrees) ---
+# XRPLib turn() sign convention: positive = counter-clockwise (CCW),
+# negative = clockwise (CW). VERIFY ON HARDWARE: a flipped sign turns
+# every correct avoid (+15) into a wrong-direction avoid (+5).
+AVOID_STOP_CM    = 15   # gap left in front of an AVOID object (<=20 counts as approach, no touch)
+DRIVE_AWAY_CM    = 25   # forward drive to leave the object after avoiding
+ROCKET_SPIN_DEG  = 180  # CW spin after Rocket contact (must be observable)
+TIRE_SPIN_DEG    = 120  # CW spin for Tire avoid (must be observable)
+TINCAN_FEINT_DEG = 20   # CCW feint for Tin Can (fixed by rules)
+TINCAN_SWEEP_DEG = 60   # CW sweep for Tin Can (fixed by rules)
+
 # Configure UART
 uart = UART(1, 115200) # init with given baudrate
 uart.init(115200, bits=8, parity=None, stop=1)
@@ -217,7 +228,7 @@ def center_robot(offset):
 
 
 def contact_object():
-
+    # Rocket: approach, physically touch, then spin CLOCKWISE and continue.
     global drivetrain
 
     print("Getting distance to object")
@@ -226,22 +237,40 @@ def contact_object():
     print(f"Distance from object: {object_distance}")
     drivetrain.straight(object_distance - 7, max_effort = 1)
     print("Object reached. Making contact")
-    drivetrain.straight(8, max_effort = 1)
-    drivetrain.straight(-8, max_effort = 1)
+    drivetrain.straight(8, max_effort = 1)          # drive in to touch
+    print("Contact made. Spinning clockwise")
+    drivetrain.turn(-ROCKET_SPIN_DEG, max_effort = 1)  # CW spin (negative = CW)
     print("Object successfully contacted. Continuing search")
-    
-    
-def avoid_object():
-    
+
+
+def avoid_wheel():
+    # Tire: approach WITHOUT touching, spin CLOCKWISE, then drive away.
     global drivetrain
 
     print("Getting distance to object")
     time.sleep(5)
     object_distance = rangefinder.distance()
     print(f"Distance from object: {object_distance}")
-    drivetrain.straight(object_distance - 7, max_effort = 1)
-    print("Object reached. Avoiding object")
-    drivetrain.turn(-90, max_effort = 1)
+    drivetrain.straight(max(0, object_distance - AVOID_STOP_CM), max_effort = 1)
+    print("Object reached (no touch). Spinning clockwise")
+    drivetrain.turn(-TIRE_SPIN_DEG, max_effort = 1)   # CW spin (negative = CW)
+    drivetrain.straight(DRIVE_AWAY_CM, max_effort = 1)
+    print("Object successfully avoided. Continuing search")
+
+
+def avoid_tin_can():
+    # Tin Can: approach WITHOUT touching, feint CCW 20 then sweep CW 60, drive away.
+    global drivetrain
+
+    print("Getting distance to object")
+    time.sleep(5)
+    object_distance = rangefinder.distance()
+    print(f"Distance from object: {object_distance}")
+    drivetrain.straight(max(0, object_distance - AVOID_STOP_CM), max_effort = 1)
+    print("Object reached (no touch). Feint CCW then sweep CW")
+    drivetrain.turn(TINCAN_FEINT_DEG, max_effort = 1)   # CCW feint (positive = CCW)
+    drivetrain.turn(-TINCAN_SWEEP_DEG, max_effort = 1)  # CW sweep  (negative = CW)
+    drivetrain.straight(DRIVE_AWAY_CM, max_effort = 1)
     print("Object successfully avoided. Continuing search")
 
 
@@ -260,9 +289,13 @@ def main():
             print(f"Contacting object of class {current_class}")
             contact_object()
             drivetrain.stop()
-        elif decision == "avoid":
-            print(f"Avoiding object of class {current_class}")
-            avoid_object()
+        elif decision == "avoid_wheel":
+            print(f"Avoiding wheel of class {current_class}")
+            avoid_wheel()
+            drivetrain.stop()
+        elif decision == "avoid_tin_can":
+            print(f"Avoiding tin can of class {current_class}")
+            avoid_tin_can()
             drivetrain.stop()
         else:
             print("No valid decision received, continuing search")

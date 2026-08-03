@@ -15,11 +15,18 @@ except Exception:
     _CUDA_AVAILABLE = False
 
 
+# Valid per-class behaviors streamed to the XRP (see main.py routing):
+#   contact       -> Rocket : approach, touch, spin clockwise
+#   avoid_wheel   -> Tire   : approach (no touch), spin clockwise, drive away
+#   avoid_tin_can -> Tin Can: approach (no touch), CCW 20 then CW 60, drive away
+VALID_BEHAVIORS = ("contact", "avoid_wheel", "avoid_tin_can")
+
+
 def parse_behaviors(arg: str, names: dict):
     """
     Parse behavior string like:
-      "0:contact,1:avoid,2:contact"
-    Returns dict: {class_id: "avoid"/"contact"}
+      "0:contact,1:avoid_wheel,2:avoid_tin_can"
+    Returns dict: {class_id: "contact"/"avoid_wheel"/"avoid_tin_can"}
     Missing ids default to "contact".
     """
     behaviors = {int(k): "contact" for k in names.keys()}
@@ -32,8 +39,8 @@ def parse_behaviors(arg: str, names: dict):
         k, v = pair.split(":")
         cid = int(k.strip())
         v = v.strip().lower()
-        if v not in ("avoid", "contact"):
-            raise ValueError(f"Behavior must be 'avoid' or 'contact', got '{v}'")
+        if v not in VALID_BEHAVIORS:
+            raise ValueError(f"Behavior must be one of {VALID_BEHAVIORS}, got '{v}'")
         if cid not in names:
             raise ValueError(f"Behavior refers to class id {cid} not in model.names")
         behaviors[cid] = v
@@ -88,7 +95,8 @@ def main():
     ap.add_argument("--conf", type=float, default=0.75, help="Confidence threshold (default 0.75)")
     ap.add_argument("--iou", type=float, default=0.5, help="NMS IoU threshold (default 0.5)")
     ap.add_argument("--max_det", type=int, default=100, help="Max detections per image")
-    ap.add_argument("--behaviors", type=str, default="", help="Per-class behaviors e.g. '0:contact,1:avoid'")
+    ap.add_argument("--behaviors", type=str, default="",
+                    help="Per-class behaviors e.g. '0:contact,1:avoid_wheel,2:avoid_tin_can'")
     ap.add_argument("--no-view", action="store_true", help="Disable on-screen preview window")
     ap.add_argument("--send-every", type=int, default=1, help="Send every Nth frame (default 1)")
     ap.add_argument("--min-interval-ms", type=int, default=5, help="Minimum ms between sends (default 120)")
@@ -124,8 +132,8 @@ def main():
     else:
         device_for_infer = None  # keeps the previous behavior
 
-    # Class map #REMOVE HARDCODED VALUES EVENTUALLY
-    names = {0: "dataset_Rocket", 1: "dataset_Tire", 2: "dataset_Laptop"}
+    # Class map taken straight from the trained model (id -> class name)
+    names = dict(model.names)
     nc = len(names)
     behaviors = parse_behaviors(args.behaviors, names)
 
